@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.joesemper.pushupprogram.ui.screens.home.HomeScreen
 import com.joesemper.pushupprogram.ui.theme.PushUpProgramTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,24 +18,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PushUpProgramTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Push Up")
-                }
+                AppNavHost()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PushUpProgramTheme {
-        Greeting("Android")
     }
 }
