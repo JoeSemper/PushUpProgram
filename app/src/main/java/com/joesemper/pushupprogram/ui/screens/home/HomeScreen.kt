@@ -1,26 +1,29 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
-import android.graphics.fonts.FontStyle
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController
+) {
 
     val viewModel: HomeViewModel = getViewModel()
-    val value = viewModel.homeState.collectAsState()
+    val workouts = viewModel.homeState.collectAsState()
 
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary
@@ -36,9 +39,13 @@ fun HomeScreen() {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(count = 7) {
+                    items(count = workouts.value.workouts.size) { id ->
                         Card(
-                            modifier = Modifier.size(128.dp),
+                            modifier = Modifier
+                                .size(128.dp)
+                                .clickable {
+                                    navController.navigate("workout/${workouts.value.workouts[id].id}")
+                                },
                             shape = RoundedCornerShape(4.dp),
                             elevation = 4.dp
                         ) {
@@ -48,8 +55,8 @@ fun HomeScreen() {
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = "Day 1",
-                                    style = MaterialTheme.typography.h6
+                                    text = workouts.value.workouts[id].id,
+                                    style = MaterialTheme.typography.body1
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(

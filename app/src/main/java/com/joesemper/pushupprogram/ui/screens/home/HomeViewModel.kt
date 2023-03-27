@@ -3,15 +3,28 @@ package com.joesemper.pushupprogram.ui.screens.home
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.*
 
-class HomeViewModel(): ViewModel() {
+class HomeViewModel() : ViewModel() {
 
-    val homeState = MutableStateFlow("Push Up")
+    val homeState = MutableStateFlow(HomeScreenState(listOf()))
 
-    fun onClick() {
-        homeState.update { value ->
-            value + "1"
+    init {
+        homeState.update {
+            val workouts = mutableListOf<Workout>()
+
+            repeat(7) { workouts.add(Workout()) }
+
+            HomeScreenState(workouts)
         }
     }
 
 }
+
+data class HomeScreenState(
+    val workouts: List<Workout>
+)
+
+data class Workout(
+    val id: String = UUID.randomUUID().toString()
+)
