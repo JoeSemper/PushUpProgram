@@ -1,7 +1,9 @@
 package com.joesemper.pushupprogram
 
 import android.app.Application
+import com.joesemper.pushupprogram.di.databaseModule
 import com.joesemper.pushupprogram.di.mainModule
+import com.joesemper.pushupprogram.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +18,9 @@ class PushUpApp: Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@PushUpApp)
             modules(
-                mainModule
+                mainModule,
+                databaseModule,
+                repositoryModule
             )
         }
     }

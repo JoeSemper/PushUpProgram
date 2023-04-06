@@ -27,7 +27,7 @@ import com.joesemper.pushupprogram.ui.screens.settings.SettingsScreen
 import com.joesemper.pushupprogram.ui.screens.workout.WorkoutScreen
 
 const val HOME_ROUTE = "home"
-const val PROGRESS_ROUTE = "Progress"
+const val PROGRESS_ROUTE = "progress"
 const val SETTINGS_ROUTE = "settings"
 const val WORKOUT_ROUTE = "workout/{workoutId}"
 

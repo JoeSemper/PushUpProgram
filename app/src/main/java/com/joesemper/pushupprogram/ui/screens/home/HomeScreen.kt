@@ -55,18 +55,18 @@ fun HomeScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = workouts.value.workouts[id].id,
+                                    text = workouts.value.workouts[id].id.toString(),
                                     style = MaterialTheme.typography.body1
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = "Triceps",
+                                    text = workouts.value.workouts[id].exerciseOne.toString(),
                                     style = MaterialTheme.typography.body1
                                 )
-                                Text(
-                                    text = "Back",
-                                    style = MaterialTheme.typography.body1
-                                )
+//                                Text(
+//                                    text = workouts.value.workouts[id].exerciseTwo.exerciseName,
+//                                    style = MaterialTheme.typography.body1
+//                                )
                             }
                         }
                     }

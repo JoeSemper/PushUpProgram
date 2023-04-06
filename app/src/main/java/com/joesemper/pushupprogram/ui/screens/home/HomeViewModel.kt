@@ -1,30 +1,34 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.joesemper.pushupprogram.data.datasourse.room.entity.WorkoutDay
+import com.joesemper.pushupprogram.data.repository.ProgramRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.*
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel(
+    private val repository: ProgramRepository
+) : ViewModel() {
 
     val homeState = MutableStateFlow(HomeScreenState(listOf()))
 
     init {
-        homeState.update {
-            val workouts = mutableListOf<Workout>()
+        loadData()
+    }
 
-            repeat(7) { workouts.add(Workout()) }
-
-            HomeScreenState(workouts)
+    private fun loadData() {
+        viewModelScope.launch {
+            homeState.update {
+               HomeScreenState(workouts = repository.getAll())
+            }
         }
     }
 
 }
 
 data class HomeScreenState(
-    val workouts: List<Workout>
-)
-
-data class Workout(
-    val id: String = UUID.randomUUID().toString()
+    val workouts: List<WorkoutDay>
 )
