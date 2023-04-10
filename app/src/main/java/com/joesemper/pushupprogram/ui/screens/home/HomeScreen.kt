@@ -55,12 +55,12 @@ fun HomeScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = workouts.value.workouts[id].id.toString(),
+                                    text = workouts.value.workouts[id].exerciseOne.toString(),
                                     style = MaterialTheme.typography.body1
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = workouts.value.workouts[id].exerciseOne.toString(),
+                                    text = workouts.value.workouts[id].exerciseTwo.toString(),
                                     style = MaterialTheme.typography.body1
                                 )
 //                                Text(
