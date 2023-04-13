@@ -25,7 +25,7 @@ val databaseModule = module {
     }
 
 
-    single<PrepopulatedProgramDatabase> {
+    factory <PrepopulatedProgramDatabase> {
         Room.databaseBuilder(
             androidContext(),
             PrepopulatedProgramDatabase::class.java,
@@ -35,7 +35,7 @@ val databaseModule = module {
             .build()
     }
 
-    single<PrepopulatedProgramDao> {
+    factory <PrepopulatedProgramDao> {
         val prepopulatedDatabase = get<PrepopulatedProgramDatabase>()
         prepopulatedDatabase.prepopulatedProgramDao()
     }

@@ -9,15 +9,18 @@ import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.java.KoinJavaComponent.inject
+
 
 class WorkoutProgramRepositoryImpl(
-    private val prepopulatedProgramDao: PrepopulatedProgramDao,
     private val workoutProgramDao: WorkoutProgramDao
 ) : WorkoutProgramRepository {
 
     override suspend fun isEmpty() = workoutProgramDao.isEmpty()
 
     override suspend fun initialise() {
+        val prepopulatedProgramDao: PrepopulatedProgramDao by inject(PrepopulatedProgramDao::class.java)
+
         val exercises = prepopulatedProgramDao.getAllWorkoutExercises()
         val workouts = prepopulatedProgramDao.getAllWorkoutDays()
 

@@ -5,5 +5,5 @@ import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<WorkoutProgramRepository> { WorkoutProgramRepositoryImpl(get(), get()) }
+    single<WorkoutProgramRepository> { WorkoutProgramRepositoryImpl(get()) }
 }
