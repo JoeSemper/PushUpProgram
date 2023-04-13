@@ -2,12 +2,12 @@ package com.joesemper.pushupprogram.data.datasourse.room.main
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.joesemper.pushupprogram.data.datasourse.room.main.dao.PushUpProgramDao
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.Exercise
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.WorkoutDay
+import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutExercise
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
 
 
-@Database(entities = [WorkoutDay::class, Exercise::class], version = 1)
+@Database(entities = [DatabaseWorkout::class, DatabaseWorkoutExercise::class], version = 1)
 abstract class PushUpProgramDatabase() : RoomDatabase() {
-    abstract fun pushUpProgramDao(): PushUpProgramDao
+    abstract fun pushUpProgramDao(): WorkoutProgramDao
 }

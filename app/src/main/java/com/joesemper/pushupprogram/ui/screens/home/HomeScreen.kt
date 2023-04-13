@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.getViewModel
@@ -55,12 +56,12 @@ fun HomeScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = workouts.value.workouts[id].exerciseOne.toString(),
+                                    text = stringResource(id = workouts.value.workouts[id].exerciseOne.exerciseNameResId),
                                     style = MaterialTheme.typography.body1
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = workouts.value.workouts[id].exerciseTwo.toString(),
+                                    text = stringResource(id = workouts.value.workouts[id].exerciseTwo.exerciseNameResId),
                                     style = MaterialTheme.typography.body1
                                 )
 //                                Text(

@@ -1,4 +1,4 @@
-package com.joesemper.pushupprogram
+package com.joesemper.pushupprogram.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.joesemper.pushupprogram.R
 import com.joesemper.pushupprogram.ui.screens.home.HomeScreen
 import com.joesemper.pushupprogram.ui.screens.progress.ProgressScreen
 import com.joesemper.pushupprogram.ui.screens.settings.SettingsScreen

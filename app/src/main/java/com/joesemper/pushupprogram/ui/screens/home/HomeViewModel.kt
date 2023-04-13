@@ -2,15 +2,17 @@ package com.joesemper.pushupprogram.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.WorkoutDay
-import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.WorkoutDayWithExercise
-import com.joesemper.pushupprogram.data.repository.ProgramRepository
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
+import com.joesemper.pushupprogram.data.repository.WorkoutProgramRepositoryImpl
+import com.joesemper.pushupprogram.domain.entity.Workout
+import com.joesemper.pushupprogram.domain.use_case.GetWorkoutProgramUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val repository: ProgramRepository
+    private val getWorkoutProgram: GetWorkoutProgramUseCase
 ) : ViewModel() {
 
     val homeState = MutableStateFlow(HomeScreenState(listOf()))
@@ -21,8 +23,10 @@ class HomeViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            homeState.update {
-               HomeScreenState(workouts = repository.getAll())
+            getWorkoutProgram().collectLatest { program ->
+                homeState.update {
+                    HomeScreenState(workouts = program)
+                }
             }
         }
     }
@@ -30,5 +34,5 @@ class HomeViewModel(
 }
 
 data class HomeScreenState(
-    val workouts: List<WorkoutDay>
+    val workouts: List<Workout>
 )

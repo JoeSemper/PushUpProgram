@@ -4,6 +4,7 @@ import android.app.Application
 import com.joesemper.pushupprogram.di.databaseModule
 import com.joesemper.pushupprogram.di.mainModule
 import com.joesemper.pushupprogram.di.repositoryModule
+import com.joesemper.pushupprogram.di.useCaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,7 +21,8 @@ class PushUpApp: Application() {
             modules(
                 mainModule,
                 databaseModule,
-                repositoryModule
+                repositoryModule,
+                useCaseModule
             )
         }
     }

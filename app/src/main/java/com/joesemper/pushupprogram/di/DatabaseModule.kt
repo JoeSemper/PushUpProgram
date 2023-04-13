@@ -2,7 +2,7 @@ package com.joesemper.pushupprogram.di
 
 import androidx.room.Room
 import com.joesemper.pushupprogram.data.datasourse.room.main.PushUpProgramDatabase
-import com.joesemper.pushupprogram.data.datasourse.room.main.dao.PushUpProgramDao
+import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.PrepopulatedProgramDatabase
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
 import org.koin.android.ext.koin.androidContext
@@ -19,7 +19,7 @@ val databaseModule = module {
             .build()
     }
 
-    single<PushUpProgramDao> {
+    single<WorkoutProgramDao> {
         val database = get<PushUpProgramDatabase>()
         database.pushUpProgramDao()
     }

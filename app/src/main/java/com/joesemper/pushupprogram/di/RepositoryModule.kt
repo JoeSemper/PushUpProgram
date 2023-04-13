@@ -1,8 +1,9 @@
 package com.joesemper.pushupprogram.di
 
-import com.joesemper.pushupprogram.data.repository.ProgramRepository
+import com.joesemper.pushupprogram.data.repository.WorkoutProgramRepositoryImpl
+import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single { ProgramRepository(get(), get()) }
+    single<WorkoutProgramRepository> { WorkoutProgramRepositoryImpl(get(), get()) }
 }
