@@ -5,20 +5,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedProgram
 import kotlinx.parcelize.Parcelize
 
 @Entity(
-    tableName = "Program",
+    tableName = "Workouts",
     foreignKeys = [ForeignKey(
-        entity = DatabaseWorkoutExercise::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("exercise_one"),
-        onDelete = ForeignKey.NO_ACTION,
-        onUpdate = ForeignKey.NO_ACTION
-    ), ForeignKey(
-        entity = DatabaseWorkoutExercise::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("exercise_two"),
+        entity = DatabaseProgram::class,
+        parentColumns = arrayOf("program_id"),
+        childColumns = arrayOf("program_id"),
         onDelete = ForeignKey.NO_ACTION,
         onUpdate = ForeignKey.NO_ACTION
     )]
@@ -26,12 +21,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DatabaseWorkout(
     @PrimaryKey()
-    @ColumnInfo(name = "id") val id: Int,
+    @ColumnInfo(name = "workout_id") val workoutId: Int,
     @ColumnInfo(name = "date") val date: Long = 0,
-    @ColumnInfo(name = "exercise_one") val exerciseOne: Int?,
-    @ColumnInfo(name = "exercise_one_repeats") val exerciseOneRepeats: Int = 0,
-    @ColumnInfo(name = "exercise_one_repeats_done") val exerciseOneRepeatsDone: Int = 0,
-    @ColumnInfo(name = "exercise_two") val exerciseTwo: Int?,
-    @ColumnInfo(name = "exercise_two_repeats") val exerciseTwoRepeats: Int = 0,
-    @ColumnInfo(name = "exercise_two_repeats_done") val exerciseTwoRepeatsDone: Int = 0,
+    @ColumnInfo(name = "day_in_week") val dayInWeek: Int = 0,
+    @ColumnInfo(name = "program_id") val programId: Int = 0,
 ) : Parcelable

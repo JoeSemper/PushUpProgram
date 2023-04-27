@@ -1,9 +1,8 @@
 package com.joesemper.pushupprogram.data.repository
 
-import com.joesemper.pushupprogram.data.datasourse.converters.databaseWorkoutToWorkout
-import com.joesemper.pushupprogram.data.datasourse.converters.prepopulatedExerciseToExercise
-import com.joesemper.pushupprogram.data.datasourse.converters.prepopulatedWorkoutToDatabaseWorkout
+import com.joesemper.pushupprogram.data.datasourse.converters.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
@@ -21,18 +20,27 @@ class WorkoutProgramRepositoryImpl(
     override suspend fun initialise() {
         val prepopulatedProgramDao: PrepopulatedProgramDao by inject(PrepopulatedProgramDao::class.java)
 
+        val muscleGroups = prepopulatedProgramDao.getAllMuscleGroups()
         val exercises = prepopulatedProgramDao.getAllWorkoutExercises()
-        val workouts = prepopulatedProgramDao.getAllWorkoutDays()
+        val workoutSets = prepopulatedProgramDao.getAllWorkoutSets()
+        val workouts = prepopulatedProgramDao.getAllWorkouts()
+        val programs = prepopulatedProgramDao.getAllPrograms()
 
         workoutProgramDao.apply {
-            insertExercises(exercises.map { prepopulatedExerciseToExercise(it) })
-            insertWorkoutDays(workouts.map { prepopulatedWorkoutToDatabaseWorkout(it) })
+            insertMuscleGroups(muscleGroups.map { prepopulatedMuscleGroupToDatabaseMuscleGroup(it)})
+            insertPrograms(programs.map { prepopulatedProgramToDatabaseProgram(it) })
+            insertWorkouts(workouts.map { prepopulatedWorkoutToDatabaseWorkout(it) })
+            insertExercises(exercises.map { prepopulatedExerciseToDatabaseExercise(it) })
+            insertWorkoutSets(workoutSets.map { prepopulatedWorkoutSetToDatabaseWorkoutSet(it) })
         }
     }
 
-    override suspend fun getWorkoutProgram(): Flow<List<Workout>> {
-        return workoutProgramDao.getAllWorkoutsWithExercises().map { workouts ->
-            workouts.map { databaseWorkoutToWorkout(it) }
-        }
-    }
+    override suspend fun getWorkouts() = workoutProgramDao.getAllWorkouts()
+
+
+//    override suspend fun getWorkoutProgram(): Flow<List<Workout>> {
+//        return workoutProgramDao.getAllWorkoutsWithExercises().map { workouts ->
+//            workouts.map { databaseWorkoutToWorkout(it) }
+//        }
+
 }

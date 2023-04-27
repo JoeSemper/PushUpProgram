@@ -3,10 +3,18 @@ package com.joesemper.pushupprogram.data.datasourse.room.prepopulated
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
-import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedWorkoutExercise
-import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedWorkout
+import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.*
 
-@Database(entities = [PrepopulatedWorkout::class, PrepopulatedWorkoutExercise::class], version = 1)
-abstract class PrepopulatedProgramDatabase(): RoomDatabase() {
+@Database(
+    entities = [
+        PrepopulatedMuscleGroup::class,
+        PrepopulatedProgram::class,
+        PrepopulatedWorkoutSet::class,
+        PrepopulatedWorkout::class,
+        PrepopulatedWorkoutExercise::class
+    ],
+    version = 1
+)
+abstract class PrepopulatedProgramDatabase() : RoomDatabase() {
     abstract fun prepopulatedProgramDao(): PrepopulatedProgramDao
 }

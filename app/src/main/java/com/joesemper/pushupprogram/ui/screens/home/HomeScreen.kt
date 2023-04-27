@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.joesemper.pushupprogram.R
+import com.joesemper.pushupprogram.ui.screens.common.DefaultTopAppBar
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -25,7 +27,8 @@ fun HomeScreen(
     val workouts = viewModel.homeState
 
     Scaffold(
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = MaterialTheme.colors.primary,
+        topBar = { DefaultTopAppBar(title = stringResource(id = R.string.app_name)) }
     ) { padding ->
         if (workouts.isLoading) {
             Box(
@@ -55,7 +58,7 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .size(128.dp)
                                         .clickable {
-                                            navController.navigate("workout/${workouts.workouts[id].id}")
+                                            navController.navigate("workout/${workouts.workouts[id].workoutId}")
                                         },
                                     shape = RoundedCornerShape(4.dp),
                                     elevation = 4.dp
@@ -66,12 +69,12 @@ fun HomeScreen(
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         Text(
-                                            text = stringResource(id = workouts.workouts[id].exerciseOne.exerciseNameResId),
+                                            text = workouts.workouts[id].workoutId.toString(),
                                             style = MaterialTheme.typography.body1
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
-                                            text = stringResource(id = workouts.workouts[id].exerciseTwo.exerciseNameResId),
+                                            text = workouts.workouts[id].dayInWeek.toString(),
                                             style = MaterialTheme.typography.body1
                                         )
                                     }

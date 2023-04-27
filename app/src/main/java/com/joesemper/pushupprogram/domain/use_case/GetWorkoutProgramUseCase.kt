@@ -10,6 +10,6 @@ class GetWorkoutProgramUseCase(
     private val workoutProgramRepository: WorkoutProgramRepository
 ) {
     suspend operator fun invoke() = withContext(defaultDispatcher) {
-        workoutProgramRepository.getWorkoutProgram()
+        workoutProgramRepository.getWorkouts()
     }
 }

@@ -8,17 +8,11 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Entity(
-    tableName = "Program",
+    tableName = "Workouts",
     foreignKeys = [ForeignKey(
-        entity = PrepopulatedWorkoutExercise::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("exercise_one"),
-        onDelete = ForeignKey.NO_ACTION,
-        onUpdate = ForeignKey.NO_ACTION
-    ), ForeignKey(
-        entity = PrepopulatedWorkoutExercise::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("exercise_two"),
+        entity = PrepopulatedProgram::class,
+        parentColumns = arrayOf("program_id"),
+        childColumns = arrayOf("program_id"),
         onDelete = ForeignKey.NO_ACTION,
         onUpdate = ForeignKey.NO_ACTION
     )]
@@ -26,9 +20,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PrepopulatedWorkout(
     @PrimaryKey()
-    @ColumnInfo(name = "id") val id: Int?,
-    @ColumnInfo(name = "exercise_one") val exerciseOne: Int?,
-    @ColumnInfo(name = "exercise_one_repeats") val exerciseOneRepeats: Int?,
-    @ColumnInfo(name = "exercise_two") val exerciseTwo: Int?,
-    @ColumnInfo(name = "exercise_two_repeats") val exerciseTwoRepeats: Int?,
+    @ColumnInfo(name = "workout_id") val workoutId: Int?,
+    @ColumnInfo(name = "day_in_week") val dayInWeek: Int?,
+    @ColumnInfo(name = "program_id") val programId: Int?,
 ) : Parcelable

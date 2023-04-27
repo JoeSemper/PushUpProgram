@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -66,7 +67,11 @@ fun AppNavHost(
 
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                backgroundColor = MaterialTheme.colors.primary,
+                contentColor = MaterialTheme.colors.onPrimary,
+                elevation = 4.dp
+            ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
@@ -75,6 +80,8 @@ fun AppNavHost(
                         icon = { Icon(imageVector = screen.icon, contentDescription = null) },
                         label = { Text(text = stringResource(id = screen.labelRes)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                        selectedContentColor = MaterialTheme.colors.secondary,
+                        unselectedContentColor = MaterialTheme.colors.onSecondary,
                         onClick = {
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {

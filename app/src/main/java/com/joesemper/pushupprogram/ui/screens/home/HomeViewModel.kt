@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutProgramUseCase
 import kotlinx.coroutines.flow.collectLatest
@@ -37,5 +38,5 @@ class HomeViewModel(
 
 data class HomeScreenState(
     val isLoading: Boolean = true,
-    val workouts: List<Workout> = listOf()
+    val workouts: List<DatabaseWorkout> = listOf()
 )
