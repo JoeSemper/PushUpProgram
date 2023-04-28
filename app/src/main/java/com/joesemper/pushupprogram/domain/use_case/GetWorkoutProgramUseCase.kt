@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetWorkoutProgramUseCase(
+class GetWorkoutProgramsUseCase(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
     private val workoutProgramRepository: WorkoutProgramRepository
 ) {

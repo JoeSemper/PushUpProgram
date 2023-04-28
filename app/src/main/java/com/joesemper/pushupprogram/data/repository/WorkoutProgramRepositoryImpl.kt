@@ -35,7 +35,13 @@ class WorkoutProgramRepositoryImpl(
         }
     }
 
-    override suspend fun getWorkouts() = workoutProgramDao.getAllWorkouts()
+    override fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<Workout>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWorkoutsForProgram(programId: Int): Flow<List<Workout>> {
+        TODO("Not yet implemented")
+    }
 
 
 //    override suspend fun getWorkoutProgram(): Flow<List<Workout>> {

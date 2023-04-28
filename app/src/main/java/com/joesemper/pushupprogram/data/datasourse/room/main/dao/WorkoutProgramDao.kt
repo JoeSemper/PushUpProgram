@@ -10,11 +10,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WorkoutProgramDao {
+    
     @Query("SELECT * FROM Workouts")
     fun getAllWorkouts(): Flow<List<DatabaseWorkout>>
 
-//    @Query("SELECT * FROM Exercises")
-//    suspend fun getAllExercises(): List<DatabaseWorkoutExercise>
+    @Query("SELECT * FROM Workouts WHERE program_id = :programId")
+    fun getWorkoutsForProgram(programId: Int): Flow<List<DatabaseWorkout>>
+
+    @Query("SELECT * FROM Workouts WHERE program_id = :workoutId")
+    fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<DatabaseWorkout>>
 
 //    @Query("SELECT * FROM Programs")
 //    fun getAllWorkoutsWithExercises(): Flow<List<DatabaseWorkoutWithExercises>>
