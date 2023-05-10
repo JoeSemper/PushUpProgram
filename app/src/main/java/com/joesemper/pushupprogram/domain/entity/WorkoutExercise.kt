@@ -1,8 +1,9 @@
 package com.joesemper.pushupprogram.domain.entity
 
 data class WorkoutExercise(
-    val exercise_id: Int,
+    val exerciseId: Int,
     val exerciseName: String = "",
-    val muscleGroupId: MuscleGroup,
+    val muscleGroupId: Int = 0,
+    val muscleGroup: MuscleGroup = MuscleGroup(),
     val description: String = ""
 )

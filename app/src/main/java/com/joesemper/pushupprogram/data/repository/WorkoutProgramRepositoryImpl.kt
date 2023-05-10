@@ -4,7 +4,9 @@ import com.joesemper.pushupprogram.data.datasourse.converters.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
+import com.joesemper.pushupprogram.domain.entity.Program
 import com.joesemper.pushupprogram.domain.entity.Workout
+import com.joesemper.pushupprogram.domain.entity.WorkoutSet
 import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -27,7 +29,7 @@ class WorkoutProgramRepositoryImpl(
         val programs = prepopulatedProgramDao.getAllPrograms()
 
         workoutProgramDao.apply {
-            insertMuscleGroups(muscleGroups.map { prepopulatedMuscleGroupToDatabaseMuscleGroup(it)})
+            insertMuscleGroups(muscleGroups.map { prepopulatedMuscleGroupToDatabaseMuscleGroup(it) })
             insertPrograms(programs.map { prepopulatedProgramToDatabaseProgram(it) })
             insertWorkouts(workouts.map { prepopulatedWorkoutToDatabaseWorkout(it) })
             insertExercises(exercises.map { prepopulatedExerciseToDatabaseExercise(it) })
@@ -35,14 +37,21 @@ class WorkoutProgramRepositoryImpl(
         }
     }
 
-    override fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<Workout>> {
-        TODO("Not yet implemented")
-    }
+    override fun getAllPrograms(): Flow<List<Program>> =
+        workoutProgramDao.getAllPrograms().map { databasePrograms ->
+            databasePrograms.map { it.toProgram() }
+        }
 
-    override fun getWorkoutsForProgram(programId: Int): Flow<List<Workout>> {
-        TODO("Not yet implemented")
-    }
+    override fun getWorkoutSetsForWorkout(workoutId: Int) =
+        workoutProgramDao.getWorkoutSetsWithExercises(workoutId)
+            .map { databaseWorkoutSetWithExercise ->
+                databaseWorkoutSetWithExercise.map { it.toWorkoutSet() }
+            }
 
+    override fun getWorkoutsForProgram(programId: Int) =
+        workoutProgramDao.getWorkoutsForProgram(programId).map { databaseWorkout ->
+            databaseWorkout.map { it.toWorkout() }
+        }
 
 //    override suspend fun getWorkoutProgram(): Flow<List<Workout>> {
 //        return workoutProgramDao.getAllWorkoutsWithExercises().map { workouts ->

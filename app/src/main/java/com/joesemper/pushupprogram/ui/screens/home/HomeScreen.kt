@@ -47,13 +47,17 @@ fun HomeScreen(
                 ) {
                     items(count = 5) {
                         Text(
-                            text = "Week 1",
+                            text = "${workouts.workouts.size}",
+                            style = MaterialTheme.typography.h6,
+                        )
+                        Text(
+                            text = "${workouts.workoutSets.size}",
                             style = MaterialTheme.typography.h6,
                         )
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(count = workouts.workouts.size) { id ->
+                            items(count = workouts.workoutSets.size) { id ->
                                 Card(
                                     modifier = Modifier
                                         .size(128.dp)
@@ -75,6 +79,10 @@ fun HomeScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
                                             text = workouts.workouts[id].dayInWeek.toString(),
+                                            style = MaterialTheme.typography.body1
+                                        )
+                                        Text(
+                                            text = workouts.workoutSets[id].exercise.exerciseName,
                                             style = MaterialTheme.typography.body1
                                         )
                                     }

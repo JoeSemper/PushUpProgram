@@ -1,10 +1,11 @@
 package com.joesemper.pushupprogram.data.datasourse.converters
 
-import com.joesemper.pushupprogram.R
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.*
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.*
+import com.joesemper.pushupprogram.domain.entity.Program
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.entity.WorkoutExercise
+import com.joesemper.pushupprogram.domain.entity.WorkoutSet
 
 fun prepopulatedWorkoutToDatabaseWorkout(prepopulatedWorkout: PrepopulatedWorkout) =
     with(prepopulatedWorkout) {
@@ -19,7 +20,7 @@ fun prepopulatedWorkoutToDatabaseWorkout(prepopulatedWorkout: PrepopulatedWorkou
 fun prepopulatedExerciseToDatabaseExercise(prepopulatedExercise: PrepopulatedWorkoutExercise) =
     with(prepopulatedExercise) {
         DatabaseWorkoutExercise(
-            exercise_id = exercise_id ?: 0,
+            exerciseId = exerciseId ?: 0,
             exerciseName = exerciseName ?: "",
             muscleGroupId = muscleGroupId ?: 0,
             description = description ?: ""
@@ -40,18 +41,46 @@ fun prepopulatedWorkoutSetToDatabaseWorkoutSet(prepopulatedWorkoutSet: Prepopula
             workoutSetId = workoutSetId ?: 0,
             workoutId = workoutId ?: 0,
             exerciseId = exerciseId ?: 0,
-            exerciseReps = exerciseReps ?:0
+            exerciseReps = exerciseReps ?: 0
         )
     }
 
 fun prepopulatedProgramToDatabaseProgram(prepopulatedProgram: PrepopulatedProgram) =
     with(prepopulatedProgram) {
         DatabaseProgram(
-            programId = programId ?:0,
-            durationWeeks = durationWeeks ?:0,
+            programId = programId ?: 0,
+            durationWeeks = durationWeeks ?: 0,
             programName = programName ?: ""
         )
     }
+
+fun DatabaseProgram.toProgram() = Program(
+    programId = programId,
+    durationWeeks = durationWeeks,
+    programName = programName
+)
+
+fun DatabaseWorkout.toWorkout() = Workout(
+    workoutId = workoutId,
+    programId = programId,
+    date = date,
+    dayInWeek = dayInWeek,
+)
+
+fun DatabaseWorkoutExercise.toWorkoutExercise() = WorkoutExercise(
+    exerciseId = exerciseId,
+    exerciseName = exerciseName,
+    muscleGroupId = muscleGroupId,
+    description = description
+)
+
+fun DatabaseWorkoutSetWithExercise.toWorkoutSet() = WorkoutSet(
+    workoutSetId = databaseWorkoutSet.workoutSetId,
+    workoutId = databaseWorkoutSet.workoutId,
+    exercise = databaseWorkoutExercise.toWorkoutExercise(),
+    exerciseReps = databaseWorkoutSet.exerciseReps
+)
+
 
 //fun databaseWorkoutToWorkout(workoutWithExercises: DatabaseWorkoutWithExercises) =
 //    with(workoutWithExercises) {
