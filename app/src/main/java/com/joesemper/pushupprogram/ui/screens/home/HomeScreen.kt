@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,13 +23,13 @@ fun HomeScreen(
 ) {
 
     val viewModel: HomeViewModel = getViewModel()
-    val workouts = viewModel.homeState
+    val state = viewModel.homeState
 
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         topBar = { DefaultTopAppBar(title = stringResource(id = R.string.app_name)) }
     ) { padding ->
-        if (workouts.isLoading) {
+        if (state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -41,53 +40,61 @@ fun HomeScreen(
                 )
             }
         } else {
-            AnimatedVisibility(visible = !workouts.isLoading) {
+            AnimatedVisibility(visible = !state.isLoading) {
                 LazyColumn(
                     modifier = Modifier.padding(8.dp),
                 ) {
-                    items(count = 5) {
+                    items(count = state.workouts.size) { columnId ->
                         Text(
-                            text = "${workouts.workouts.size}",
-                            style = MaterialTheme.typography.h6,
-                        )
-                        Text(
-                            text = "${workouts.workoutSets.size}",
+                            text = "Week $columnId",
                             style = MaterialTheme.typography.h6,
                         )
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(count = workouts.workoutSets.size) { id ->
-                                Card(
-                                    modifier = Modifier
-                                        .size(128.dp)
-                                        .clickable {
-                                            navController.navigate("workout/${workouts.workouts[id].workoutId}")
-                                        },
-                                    shape = RoundedCornerShape(4.dp),
-                                    elevation = 4.dp
-                                ) {
-                                    Column(
-                                        modifier = Modifier.fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
+                            if (state.workouts.isNotEmpty()){
+                                items(count = state.workouts.size) { id ->
+                                    Card(
+                                        modifier = Modifier
+                                            .size(128.dp)
+                                            .clickable {
+                                                navController.navigate("workout/${state.workouts[id].workoutId}")
+                                            },
+                                        shape = RoundedCornerShape(4.dp),
+                                        elevation = 4.dp
                                     ) {
-                                        Text(
-                                            text = workouts.workouts[id].workoutId.toString(),
-                                            style = MaterialTheme.typography.body1
-                                        )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            text = workouts.workouts[id].dayInWeek.toString(),
-                                            style = MaterialTheme.typography.body1
-                                        )
-                                        Text(
-                                            text = workouts.workoutSets[id].exercise.exerciseName,
-                                            style = MaterialTheme.typography.body1
-                                        )
+                                        Column(
+                                            modifier = Modifier.fillMaxSize(),
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = "Day ${state.workouts[id].dayInWeek}",
+                                                style = MaterialTheme.typography.body1
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = state.workouts[id].workoutSets.first().exercise.exerciseName,
+                                                style = MaterialTheme.typography.body1
+                                            )
+                                            Text(
+                                                text = state.workouts[id].workoutSets.first().exercise.muscleGroup.muscleGroupName,
+                                                style = MaterialTheme.typography.body1
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                text = state.workouts[id].workoutSets.last().exercise.exerciseName,
+                                                style = MaterialTheme.typography.body1
+                                            )
+                                            Text(
+                                                text = state.workouts[id].workoutSets.last().exercise.muscleGroup.muscleGroupName,
+                                                style = MaterialTheme.typography.body1
+                                            )
+                                        }
                                     }
                                 }
                             }
+
                         }
                     }
                 }

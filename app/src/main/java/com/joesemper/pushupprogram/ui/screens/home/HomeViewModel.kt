@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joesemper.pushupprogram.domain.entity.Program
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.entity.WorkoutSet
+import com.joesemper.pushupprogram.domain.use_case.GetWorkoutProgramByIdUseCase
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutSetsForWorkoutUseCase
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutsForProgramUseCase
 import kotlinx.coroutines.flow.collectLatest
@@ -14,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getWorkoutsForProgramUseCase: GetWorkoutsForProgramUseCase,
-    private val getWorkoutSetsForWorkoutUseCase: GetWorkoutSetsForWorkoutUseCase
+    private val getWorkoutProgramByIdUseCase: GetWorkoutProgramByIdUseCase
 ) : ViewModel() {
 
     var homeState by mutableStateOf(HomeScreenState())
@@ -26,28 +28,28 @@ class HomeViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            getWorkoutsForProgramUseCase(programId = 0).collectLatest { program ->
+            getWorkoutsForProgramUseCase(programId = 1).collectLatest { program ->
                 homeState = homeState.copy(
                     isLoading = false,
                     workouts = program
                 )
             }
         }
-
         viewModelScope.launch {
-            getWorkoutSetsForWorkoutUseCase(workoutId = 0).collectLatest { workoutSets ->
+            getWorkoutProgramByIdUseCase(programId = 1).collectLatest { program ->
                 homeState = homeState.copy(
-                    workoutSets = workoutSets
+                    isLoading = false,
+                    program = program
                 )
-
             }
         }
+
     }
 
 }
 
 data class HomeScreenState(
     val isLoading: Boolean = true,
+    val program: Program = Program(),
     val workouts: List<Workout> = listOf(),
-    val workoutSets: List<WorkoutSet> = listOf()
 )

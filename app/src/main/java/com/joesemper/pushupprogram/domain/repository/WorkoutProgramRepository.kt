@@ -12,4 +12,5 @@ interface WorkoutProgramRepository {
     fun getAllPrograms(): Flow<List<Program>>
     fun getWorkoutsForProgram(programId: Int): Flow<List<Workout>>
     fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<WorkoutSet>>
+    fun getProgramById(programId: Int): Flow<Program>
 }

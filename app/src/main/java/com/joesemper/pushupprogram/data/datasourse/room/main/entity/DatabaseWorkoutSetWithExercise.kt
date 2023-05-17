@@ -2,6 +2,7 @@ package com.joesemper.pushupprogram.data.datasourse.room.main.entity
 
 import android.os.Parcelable
 import androidx.room.Embedded
+import androidx.room.Junction
 import androidx.room.Relation
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedWorkout
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedWorkoutExercise
@@ -13,9 +14,10 @@ data class DatabaseWorkoutSetWithExercise(
     val databaseWorkoutSet: DatabaseWorkoutSet,
 
     @Relation(
+        entity = DatabaseWorkoutExercise::class,
         parentColumn = "exercise_id",
-        entityColumn = "exercise_id"
+        entityColumn = "exercise_id",
     )
-    val databaseWorkoutExercise: DatabaseWorkoutExercise,
+    val databaseWorkoutExercise: DatabaseWorkoutExerciseWithMuscleGroup,
 
 ) : Parcelable

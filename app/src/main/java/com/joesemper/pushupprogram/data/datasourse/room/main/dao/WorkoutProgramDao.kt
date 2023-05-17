@@ -13,6 +13,9 @@ interface WorkoutProgramDao {
     @Query("SELECT * FROM Programs")
     fun getAllPrograms(): Flow<List<DatabaseProgram>>
 
+    @Query("SELECT * FROM Programs WHERE program_id = :programId")
+    fun getProgramById(programId: Int): Flow<DatabaseProgram>
+
     @Query("SELECT * FROM Workouts")
     fun getAllWorkouts(): Flow<List<DatabaseWorkout>>
 
@@ -30,6 +33,12 @@ interface WorkoutProgramDao {
 
     @Query("SELECT * FROM WorkoutSets WHERE workout_id = :workoutId")
     fun getWorkoutSetsWithExercises(workoutId: Int): Flow<List<DatabaseWorkoutSetWithExercise>>
+
+    @Query("SELECT * FROM Exercises WHERE exercise_id = :exerciseId")
+    fun getWorkoutExerciseWithMuscleGroupById(exerciseId: Int): Flow<List<DatabaseWorkoutExerciseWithMuscleGroup>>
+
+    @Query("SELECT * FROM Workouts WHERE program_id = :programId")
+    fun getWorkoutsWithSetsForProgram(programId: Int): Flow<List<DatabaseWorkoutWithWorkoutSets>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -49,7 +58,6 @@ interface WorkoutProgramDao {
 
     @Query("SELECT (SELECT COUNT(*) FROM Programs) == 0")
     suspend fun isEmpty(): Boolean
-
 
 
 }

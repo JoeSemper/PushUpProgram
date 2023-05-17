@@ -1,11 +1,9 @@
 package com.joesemper.pushupprogram.data.datasourse.room.main.entity
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.PrepopulatedMuscleGroup
+import com.joesemper.pushupprogram.domain.entity.MuscleGroup
 import kotlinx.parcelize.Parcelize
 
 @Entity(
@@ -25,4 +23,5 @@ data class DatabaseWorkoutExercise(
     @ColumnInfo(name = "exercise_name") val exerciseName: String = "",
     @ColumnInfo(name = "muscle_group_id") val muscleGroupId: Int = 0,
     @ColumnInfo(name = "description") val description: String = ""
+
 ) : Parcelable

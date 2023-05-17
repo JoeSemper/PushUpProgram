@@ -49,13 +49,13 @@ class WorkoutProgramRepositoryImpl(
             }
 
     override fun getWorkoutsForProgram(programId: Int) =
-        workoutProgramDao.getWorkoutsForProgram(programId).map { databaseWorkout ->
+        workoutProgramDao.getWorkoutsWithSetsForProgram(programId).map { databaseWorkout ->
             databaseWorkout.map { it.toWorkout() }
         }
 
-//    override suspend fun getWorkoutProgram(): Flow<List<Workout>> {
-//        return workoutProgramDao.getAllWorkoutsWithExercises().map { workouts ->
-//            workouts.map { databaseWorkoutToWorkout(it) }
-//        }
+    override fun getProgramById(programId: Int) =
+        workoutProgramDao.getProgramById(programId).map { databaseProgram ->
+            databaseProgram.toProgram()
+        }
 
 }
