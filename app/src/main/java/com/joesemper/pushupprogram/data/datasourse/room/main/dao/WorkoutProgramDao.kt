@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.*
+import com.joesemper.pushupprogram.domain.entity.MuscleGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -40,6 +41,15 @@ interface WorkoutProgramDao {
     @Query("SELECT * FROM Workouts WHERE program_id = :programId")
     fun getWorkoutsWithSetsForProgram(programId: Int): Flow<List<DatabaseWorkoutWithWorkoutSets>>
 
+    @Query(
+        "SELECT * " +
+                "FROM Workouts " +
+                "JOIN WorkoutSets ON Workouts.workout_id = WorkoutSets.workout_id " +
+                "JOIN Exercises ON WorkoutSets.exercise_id = Exercises.exercise_id " +
+                "JOIN MuscleGroups ON Exercises.muscle_group_id = MuscleGroups.muscle_group_id "
+//                "GROUP BY Workout.program_id WHERE program_id = :programId"
+    )
+    fun getWorkoutsForProgramWithMuscleGroups(): Flow<Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkouts(databaseWorkouts: List<DatabaseWorkout>)

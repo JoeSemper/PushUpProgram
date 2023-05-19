@@ -5,12 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseMuscleGroup
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutWithMuscleGroups
+import com.joesemper.pushupprogram.domain.entity.MuscleGroup
 import com.joesemper.pushupprogram.domain.entity.Program
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.entity.WorkoutSet
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutProgramByIdUseCase
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutSetsForWorkoutUseCase
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutsForProgramUseCase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -35,14 +40,14 @@ class HomeViewModel(
                 )
             }
         }
-        viewModelScope.launch {
-            getWorkoutProgramByIdUseCase(programId = 1).collectLatest { program ->
-                homeState = homeState.copy(
-                    isLoading = false,
-                    program = program
-                )
-            }
-        }
+//        viewModelScope.launch {
+//            getWorkoutProgramByIdUseCase(programId = 1).collectLatest { program ->
+//                homeState = homeState.copy(
+//                    isLoading = false,
+//                    program = program
+//                )
+//            }
+//        }
 
     }
 
@@ -51,5 +56,5 @@ class HomeViewModel(
 data class HomeScreenState(
     val isLoading: Boolean = true,
     val program: Program = Program(),
-    val workouts: List<Workout> = listOf(),
+    val workouts: Map<DatabaseWorkout, Set<DatabaseMuscleGroup>> = mapOf(),
 )

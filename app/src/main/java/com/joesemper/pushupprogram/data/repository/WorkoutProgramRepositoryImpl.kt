@@ -2,8 +2,11 @@ package com.joesemper.pushupprogram.data.repository
 
 import com.joesemper.pushupprogram.data.datasourse.converters.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseMuscleGroup
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutWithMuscleGroups
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
+import com.joesemper.pushupprogram.domain.entity.MuscleGroup
 import com.joesemper.pushupprogram.domain.entity.Program
 import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.entity.WorkoutSet
@@ -48,10 +51,14 @@ class WorkoutProgramRepositoryImpl(
                 databaseWorkoutSetWithExercise.map { it.toWorkoutSet() }
             }
 
-    override fun getWorkoutsForProgram(programId: Int) =
-        workoutProgramDao.getWorkoutsWithSetsForProgram(programId).map { databaseWorkout ->
-            databaseWorkout.map { it.toWorkout() }
-        }
+//    override fun getWorkoutsForProgram(programId: Int) =
+//        workoutProgramDao.getWorkoutsWithSetsForProgram(programId).map { databaseWorkout ->
+//            databaseWorkout.map { it.toWorkout() }
+//        }
+
+    override fun getWorkoutsForProgram(programId: Int): Flow<Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>> {
+        return workoutProgramDao.getWorkoutsForProgramWithMuscleGroups()
+    }
 
     override fun getProgramById(programId: Int) =
         workoutProgramDao.getProgramById(programId).map { databaseProgram ->

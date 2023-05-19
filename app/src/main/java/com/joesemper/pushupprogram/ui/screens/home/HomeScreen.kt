@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.joesemper.pushupprogram.R
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
 import com.joesemper.pushupprogram.ui.screens.common.DefaultTopAppBar
 import org.koin.androidx.compose.getViewModel
 
@@ -52,13 +54,13 @@ fun HomeScreen(
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            if (state.workouts.isNotEmpty()){
-                                items(count = state.workouts.size) { id ->
+                            if (state.workouts.isNotEmpty()) {
+                                items(viewModel.homeState.workouts.toList()) { item ->
                                     Card(
                                         modifier = Modifier
                                             .size(128.dp)
                                             .clickable {
-                                                navController.navigate("workout/${state.workouts[id].workoutId}")
+                                                navController.navigate("workout ${item.first.workoutId}")
                                             },
                                         shape = RoundedCornerShape(4.dp),
                                         elevation = 4.dp
@@ -69,27 +71,27 @@ fun HomeScreen(
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             Text(
-                                                text = "Day ${state.workouts[id].dayInWeek}",
+                                                text = "Day ${item.first.dayInWeek}",
                                                 style = MaterialTheme.typography.body1
                                             )
                                             Spacer(modifier = Modifier.height(8.dp))
                                             Text(
-                                                text = state.workouts[id].workoutSets.first().exercise.exerciseName,
+                                                text = item.second.first().muscleGroupName,
                                                 style = MaterialTheme.typography.body1
                                             )
                                             Text(
-                                                text = state.workouts[id].workoutSets.first().exercise.muscleGroup.muscleGroupName,
+                                                text = item.second.last().muscleGroupName,
                                                 style = MaterialTheme.typography.body1
                                             )
-                                            Spacer(modifier = Modifier.height(8.dp))
-                                            Text(
-                                                text = state.workouts[id].workoutSets.last().exercise.exerciseName,
-                                                style = MaterialTheme.typography.body1
-                                            )
-                                            Text(
-                                                text = state.workouts[id].workoutSets.last().exercise.muscleGroup.muscleGroupName,
-                                                style = MaterialTheme.typography.body1
-                                            )
+//                                            Spacer(modifier = Modifier.height(8.dp))
+//                                            Text(
+//                                                text = state.workouts[id].workoutSets.last().exercise.exerciseName,
+//                                                style = MaterialTheme.typography.body1
+//                                            )
+//                                            Text(
+//                                                text = state.workouts[id].workoutSets.last().exercise.muscleGroup.muscleGroupName,
+//                                                style = MaterialTheme.typography.body1
+//                                            )
                                         }
                                     }
                                 }
