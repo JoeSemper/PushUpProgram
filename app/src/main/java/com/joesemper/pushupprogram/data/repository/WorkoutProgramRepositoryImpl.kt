@@ -2,14 +2,8 @@ package com.joesemper.pushupprogram.data.repository
 
 import com.joesemper.pushupprogram.data.datasourse.converters.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseMuscleGroup
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutWithMuscleGroups
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
-import com.joesemper.pushupprogram.domain.entity.MuscleGroup
-import com.joesemper.pushupprogram.domain.entity.Program
-import com.joesemper.pushupprogram.domain.entity.Workout
-import com.joesemper.pushupprogram.domain.entity.WorkoutSet
+import com.joesemper.pushupprogram.domain.entity.*
 import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -56,9 +50,10 @@ class WorkoutProgramRepositoryImpl(
 //            databaseWorkout.map { it.toWorkout() }
 //        }
 
-    override fun getWorkoutsForProgram(programId: Int): Flow<Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>> {
-        return workoutProgramDao.getWorkoutsForProgramWithMuscleGroups()
-    }
+    override fun getWorkoutsForProgram(programId: Int) =
+        workoutProgramDao.getWorkoutsForProgramWithMuscleGroups().map { map ->
+            workoutsWithMuscleGroupsMapToEntity(map)
+        }
 
     override fun getProgramById(programId: Int) =
         workoutProgramDao.getProgramById(programId).map { databaseProgram ->

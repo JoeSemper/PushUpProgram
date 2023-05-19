@@ -14,6 +14,5 @@ import kotlinx.parcelize.Parcelize
 data class DatabaseProgram(
     @PrimaryKey()
     @ColumnInfo(name = "program_id") val programId: Int,
-    @ColumnInfo(name = "duration_weeks") val durationWeeks: Int = 0,
     @ColumnInfo(name = "program_name") val programName: String = "",
 ) : Parcelable

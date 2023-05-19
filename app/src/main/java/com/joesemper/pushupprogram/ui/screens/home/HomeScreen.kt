@@ -28,7 +28,6 @@ fun HomeScreen(
     val state = viewModel.homeState
 
     Scaffold(
-        backgroundColor = MaterialTheme.colors.primary,
         topBar = { DefaultTopAppBar(title = stringResource(id = R.string.app_name)) }
     ) { padding ->
         if (state.isLoading) {
@@ -47,57 +46,10 @@ fun HomeScreen(
                     modifier = Modifier.padding(8.dp),
                 ) {
                     items(count = state.workouts.size) { columnId ->
-                        Text(
-                            text = "Week $columnId",
-                            style = MaterialTheme.typography.h6,
+                        WorkoutListItem(
+                            state = state.workouts[columnId]
                         )
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            if (state.workouts.isNotEmpty()) {
-                                items(viewModel.homeState.workouts.toList()) { item ->
-                                    Card(
-                                        modifier = Modifier
-                                            .size(128.dp)
-                                            .clickable {
-                                                navController.navigate("workout ${item.first.workoutId}")
-                                            },
-                                        shape = RoundedCornerShape(4.dp),
-                                        elevation = 4.dp
-                                    ) {
-                                        Column(
-                                            modifier = Modifier.fillMaxSize(),
-                                            verticalArrangement = Arrangement.Center,
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
-                                            Text(
-                                                text = "Day ${item.first.dayInWeek}",
-                                                style = MaterialTheme.typography.body1
-                                            )
-                                            Spacer(modifier = Modifier.height(8.dp))
-                                            Text(
-                                                text = item.second.first().muscleGroupName,
-                                                style = MaterialTheme.typography.body1
-                                            )
-                                            Text(
-                                                text = item.second.last().muscleGroupName,
-                                                style = MaterialTheme.typography.body1
-                                            )
-//                                            Spacer(modifier = Modifier.height(8.dp))
-//                                            Text(
-//                                                text = state.workouts[id].workoutSets.last().exercise.exerciseName,
-//                                                style = MaterialTheme.typography.body1
-//                                            )
-//                                            Text(
-//                                                text = state.workouts[id].workoutSets.last().exercise.muscleGroup.muscleGroupName,
-//                                                style = MaterialTheme.typography.body1
-//                                            )
-                                        }
-                                    }
-                                }
-                            }
 
-                        }
                     }
                 }
             }

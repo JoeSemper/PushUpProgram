@@ -21,6 +21,6 @@ import kotlinx.parcelize.Parcelize
 data class PrepopulatedWorkout(
     @PrimaryKey()
     @ColumnInfo(name = "workout_id") val workoutId: Int?,
-    @ColumnInfo(name = "day_in_week") val dayInWeek: Int?,
+    @ColumnInfo(name = "day_in_program") val dayInProgram: Int?,
     @ColumnInfo(name = "program_id") val programId: Int?,
 ) : Parcelable

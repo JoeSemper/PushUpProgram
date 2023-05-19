@@ -23,6 +23,6 @@ data class DatabaseWorkout(
     @PrimaryKey()
     @ColumnInfo(name = "workout_id") val workoutId: Int,
     @ColumnInfo(name = "date") val date: Long = 0,
-    @ColumnInfo(name = "day_in_week") val dayInWeek: Int = 0,
+    @ColumnInfo(name = "day_in_program") val dayInProgram: Int = 0,
     @ColumnInfo(name = "program_id") val programId: Int = 0,
 ) : Parcelable

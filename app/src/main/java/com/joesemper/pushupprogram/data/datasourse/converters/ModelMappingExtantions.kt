@@ -1,5 +1,6 @@
 package com.joesemper.pushupprogram.data.datasourse.converters
 
+import com.joesemper.pushupprogram.R
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.*
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.entity.*
 import com.joesemper.pushupprogram.domain.entity.*
@@ -9,7 +10,7 @@ fun prepopulatedWorkoutToDatabaseWorkout(prepopulatedWorkout: PrepopulatedWorkou
         DatabaseWorkout(
             workoutId = workoutId ?: 0,
             date = 0,
-            dayInWeek = dayInWeek ?: 0,
+            dayInProgram = dayInProgram ?: 0,
             programId = programId ?: 0
         )
     }
@@ -28,7 +29,14 @@ fun prepopulatedMuscleGroupToDatabaseMuscleGroup(prepopulatedMuscleGroup: Prepop
     with(prepopulatedMuscleGroup) {
         DatabaseMuscleGroup(
             muscleGroupId = muscleGroupId ?: 0,
-            muscleGroupName = muscleGroupName ?: ""
+            muscleGroupName = muscleGroupName ?: "",
+            muscleGroupResId = when(muscleGroupName) {
+                "Chest" -> R.drawable.is_chest
+                "Back" -> R.drawable.ic_back
+                "Shoulders" -> R.drawable.ic_shoulders
+                "Triceps" -> R.drawable.ic_triceps
+                else -> R.drawable.ic_rest
+            }
         )
     }
 
@@ -46,14 +54,12 @@ fun prepopulatedProgramToDatabaseProgram(prepopulatedProgram: PrepopulatedProgra
     with(prepopulatedProgram) {
         DatabaseProgram(
             programId = programId ?: 0,
-            durationWeeks = durationWeeks ?: 0,
             programName = programName ?: ""
         )
     }
 
 fun DatabaseProgram.toProgram() = Program(
     programId = programId,
-    durationWeeks = durationWeeks,
     programName = programName
 )
 
@@ -61,7 +67,7 @@ fun DatabaseWorkout.toWorkout() = Workout(
     workoutId = workoutId,
     programId = programId,
     date = date,
-    dayInWeek = dayInWeek,
+    dayInProgram = dayInProgram,
 )
 
 fun DatabaseWorkoutExercise.toWorkoutExercise() = WorkoutExercise(
@@ -89,14 +95,27 @@ fun DatabaseWorkoutSetWithExercise.toWorkoutSet() = WorkoutSet(
 
 fun DatabaseMuscleGroup.toMuscleGroup() = MuscleGroup(
     muscleGroupId = muscleGroupId,
-    muscleGroupName = muscleGroupName
+    muscleGroupName = muscleGroupName,
+    muscleGroupResId = muscleGroupResId
 )
 
 fun DatabaseWorkoutWithWorkoutSets.toWorkout() = Workout(
     workoutId = databaseWorkout.workoutId,
     programId = databaseWorkout.programId,
     date = databaseWorkout.date,
-    dayInWeek = databaseWorkout.dayInWeek,
+    dayInProgram = databaseWorkout.dayInProgram,
     workoutSets = databaseWorkoutSets.map { it.toWorkoutSet() }
-
 )
+
+fun workoutsWithMuscleGroupsMapToEntity(map: Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>): List<WorkoutWithMuscleGroups> {
+    val list = map.toList().sortedBy { it.first.dayInProgram }
+    return list.map { pair ->
+        WorkoutWithMuscleGroups(
+            workoutId = pair.first.workoutId,
+            programId = pair.first.programId,
+            date = pair.first.date,
+            dayInProgram = pair.first.dayInProgram,
+            muscleGroups = pair.second.map { it.toMuscleGroup() }.toSet()
+        )
+    }
+}
