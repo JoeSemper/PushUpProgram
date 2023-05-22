@@ -47,6 +47,13 @@ fun HomeScreen(
                 ) {
                     items(count = state.workouts.size) { columnId ->
                         WorkoutListItem(
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .clickable {
+                                    navController.navigate(
+                                        "workout/${state.workouts[columnId].workoutId}"
+                                    )
+                                },
                             state = state.workouts[columnId]
                         )
 
