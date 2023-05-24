@@ -46,10 +46,10 @@ interface WorkoutProgramDao {
                 "FROM Workouts " +
                 "JOIN WorkoutSets ON Workouts.workout_id = WorkoutSets.workout_id " +
                 "JOIN Exercises ON WorkoutSets.exercise_id = Exercises.exercise_id " +
-                "JOIN MuscleGroups ON Exercises.muscle_group_id = MuscleGroups.muscle_group_id "
-//                "GROUP BY Workout.program_id WHERE program_id = :programId"
+                "JOIN MuscleGroups ON Exercises.muscle_group_id = MuscleGroups.muscle_group_id " +
+                "WHERE program_id = :programId"
     )
-    fun getWorkoutsForProgramWithMuscleGroups(): Flow<Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>>
+    fun getWorkoutsForProgramWithMuscleGroups(programId: Int): Flow<Map<DatabaseWorkout, Set<DatabaseMuscleGroup>>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkouts(databaseWorkouts: List<DatabaseWorkout>)

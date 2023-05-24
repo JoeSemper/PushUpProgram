@@ -1,15 +1,24 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -43,7 +52,7 @@ fun WorkoutListItem(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 state.muscleGroups.forEach {
-                    MuscleGroupIcon(
+                    RoundedIcon(
                         iconRes = it.muscleGroupResId,
                     )
                 }
@@ -59,12 +68,15 @@ fun WorkoutListItem(
                 text = "Day ${state.dayInProgram}",
                 style = MaterialTheme.typography.h6
             )
+
             Icon(
-                modifier = Modifier.size(24.dp).constrainAs(stateIcon){
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                },
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(stateIcon) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    },
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = null
             )
@@ -74,7 +86,163 @@ fun WorkoutListItem(
 }
 
 @Composable
-fun MuscleGroupIcon(
+fun ProgressListItem(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(150.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.6f),
+                color = MaterialTheme.colors.primary
+            ) {
+            }
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.4f),
+                color = MaterialTheme.colors.background
+            ) {
+            }
+        }
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            elevation = 4.dp
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Push up beginner")
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                    progress = 0.7f
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun ProgramProgressIndicator(
+    state: LazyListState
+) {
+
+    val color = animateColorAsState(
+        targetValue = if (state.firstVisibleItemIndex > 1) {
+            MaterialTheme.colors.background
+        } else {
+            MaterialTheme.colors.primary
+        }
+    )
+
+    val contentColor = animateColorAsState(
+        targetValue = if (state.firstVisibleItemIndex > 1) {
+            MaterialTheme.colors.onBackground
+        } else {
+            MaterialTheme.colors.onPrimary
+        }
+    )
+
+    val elevation = animateDpAsState(
+        targetValue = if (state.firstVisibleItemScrollOffset > 0) {
+            4.dp
+        } else {
+            0.dp
+        }
+    )
+
+    TopAppBar(
+        modifier = Modifier,
+        elevation = elevation.value,
+        backgroundColor = color.value,
+        contentColor = contentColor.value
+    ) {
+
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        )
+        {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Push up program",
+                    style = MaterialTheme.typography.h6
+                )
+                IconButton(
+                    modifier = Modifier.size(32.dp),
+                    onClick = { /*TODO*/ }
+                ) {
+                    Icon(
+                        modifier = Modifier.size(32.dp),
+                        imageVector = Icons.Default.List,
+                        contentDescription = null
+                    )
+                }
+            }
+
+        }
+
+//            LazyRow(
+//                modifier = Modifier.fillMaxWidth(),
+//                contentPadding = PaddingValues(4.dp)
+//            ){
+//                items(count = 10) {
+//                    Icon(imageVector = Icons.Default.Refresh, contentDescription = null)
+//                }
+//            }
+
+
+//            Row(
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                LinearProgressIndicator(
+//                    modifier = Modifier
+//                        .fillMaxWidth(0.7f)
+//                        .padding(vertical = 8.dp)
+//                        .height(4.dp),
+//                    progress = 0.7f,
+//                    color = Color.White
+//                )
+//                Text(
+//                    modifier = Modifier.fillMaxWidth(0.3f),
+//                    text = "10/10"
+//                )
+//            }
+
+
+//            Text(
+//                modifier = Modifier,
+//                text = "10/43",
+//                color = Color.White,
+//                style = MaterialTheme.typography.body1
+//            )
+    }
+
+}
+
+@Composable
+fun RoundedIcon(
     modifier: Modifier = Modifier,
     iconRes: Int,
 ) {

@@ -12,7 +12,6 @@ val Typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
-        color = PrimaryTextColor
     ),
     body1 = TextStyle(
         fontFamily = FontFamily.Default,

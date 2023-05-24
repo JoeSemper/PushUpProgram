@@ -51,7 +51,7 @@ class WorkoutProgramRepositoryImpl(
 //        }
 
     override fun getWorkoutsForProgram(programId: Int) =
-        workoutProgramDao.getWorkoutsForProgramWithMuscleGroups().map { map ->
+        workoutProgramDao.getWorkoutsForProgramWithMuscleGroups(programId).map { map ->
             workoutsWithMuscleGroupsMapToEntity(map)
         }
 

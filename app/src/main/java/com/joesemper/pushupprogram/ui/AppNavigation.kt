@@ -27,6 +27,7 @@ import com.joesemper.pushupprogram.ui.screens.home.HomeScreen
 import com.joesemper.pushupprogram.ui.screens.progress.ProgressScreen
 import com.joesemper.pushupprogram.ui.screens.settings.SettingsScreen
 import com.joesemper.pushupprogram.ui.screens.workout.WorkoutScreen
+import com.joesemper.pushupprogram.ui.theme.SecondaryTextColor
 
 const val HOME_ROUTE = "home"
 const val PROGRESS_ROUTE = "progress"
@@ -68,8 +69,8 @@ fun AppNavHost(
     Scaffold(
         bottomBar = {
             BottomNavigation(
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = MaterialTheme.colors.onPrimary,
+                backgroundColor = MaterialTheme.colors.primaryVariant,
+                contentColor = MaterialTheme.colors.primary,
                 elevation = 4.dp
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -80,8 +81,8 @@ fun AppNavHost(
                         icon = { Icon(imageVector = screen.icon, contentDescription = null) },
                         label = { Text(text = stringResource(id = screen.labelRes)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        selectedContentColor = MaterialTheme.colors.secondary,
-                        unselectedContentColor = MaterialTheme.colors.onSecondary,
+                        selectedContentColor = MaterialTheme.colors.primary,
+                        unselectedContentColor = MaterialTheme.colors.secondary,
                         onClick = {
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {

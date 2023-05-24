@@ -16,13 +16,12 @@ fun DefaultTopAppBar(
 
     TopAppBar(
         modifier = modifier.fillMaxWidth(),
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary,
+        backgroundColor = MaterialTheme.colors.background,
         elevation = 4.dp
     ) {
         Text(
             text = title,
-            color = MaterialTheme.colors.onPrimary,
+            color = MaterialTheme.colors.onBackground,
             style = MaterialTheme.typography.h6
         )
     }

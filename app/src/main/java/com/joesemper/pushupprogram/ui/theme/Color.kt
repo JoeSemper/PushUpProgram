@@ -3,10 +3,14 @@ package com.joesemper.pushupprogram.ui.theme
 import androidx.compose.ui.graphics.Color
 
 
-val PrimaryColor = Color(0xFF2BA5E0)
-val PrimaryColorDark = Color(0xFF3991BB)
-val PrimaryColorLight = Color(0xFF8DD7F8)
-val SecondaryColor = Color(0xFFFF9800)
+val PrimaryColor = Color(0xFF2196F3)
+val PrimaryColorDark = Color(0xFF303f9f)
+val PrimaryColorLight = Color(0xFFE3F2FD)
+val SecondaryColor = Color(0xFF797979)
+
+//val PrimaryTextColor = Color(0xFF212121)
+//val SecondaryTextColor = Color(0xFF757575)
+//val SupportTextColor = Color(0xFFBDBDBD)
 
 val PrimaryTextColor = Color(0xDE000000)
 val SecondaryTextColor = Color(0x8A000000)

@@ -27,7 +27,7 @@ import kotlinx.parcelize.Parcelize
 )
 @Parcelize
 data class DatabaseWorkoutSet(
-    @PrimaryKey
+    @PrimaryKey()
     @ColumnInfo(name = "workout_set_id") val workoutSetId: Int = 0,
     @ColumnInfo(name = "workout_id") val workoutId: Int = 0,
     @ColumnInfo(name = "exercise_id") val exerciseId: Int = 0,

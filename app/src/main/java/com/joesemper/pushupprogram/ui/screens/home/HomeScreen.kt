@@ -1,11 +1,11 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -19,6 +19,7 @@ import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWork
 import com.joesemper.pushupprogram.ui.screens.common.DefaultTopAppBar
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -26,9 +27,14 @@ fun HomeScreen(
 
     val viewModel: HomeViewModel = getViewModel()
     val state = viewModel.homeState
+    val scrollState = rememberLazyListState()
 
     Scaffold(
-        topBar = { DefaultTopAppBar(title = stringResource(id = R.string.app_name)) }
+        topBar = {
+//            DefaultTopAppBar(title = stringResource(id = R.string.app_name))
+            ProgramProgressIndicator(scrollState)
+        },
+        backgroundColor = MaterialTheme.colors.background
     ) { padding ->
         if (state.isLoading) {
             Box(
@@ -43,8 +49,33 @@ fun HomeScreen(
         } else {
             AnimatedVisibility(visible = !state.isLoading) {
                 LazyColumn(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier,
+                    state = scrollState,
                 ) {
+                    stickyHeader {
+//                        Card(
+//                            modifier = Modifier
+//                                .padding(16.dp)
+//                                .fillMaxWidth()
+//                                .wrapContentHeight()
+//                                .padding(8.dp)
+//                        ) {
+//                            Column(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                verticalArrangement = Arrangement.SpaceEvenly,
+//                                horizontalAlignment = Alignment.CenterHorizontally
+//                            ) {
+//                                Text(text = "Program")
+//                                LinearProgressIndicator(
+//                                    modifier = Modifier.fillMaxWidth()
+//                                )
+//                            }
+//
+//                        }
+                    }
+                    item {
+                        ProgressListItem()
+                    }
                     items(count = state.workouts.size) { columnId ->
                         WorkoutListItem(
                             modifier = Modifier
