@@ -3,22 +3,15 @@ package com.joesemper.pushupprogram.ui.screens.home
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -139,12 +132,13 @@ fun ProgressListItem(
 }
 
 @Composable
-fun ProgramProgressIndicator(
-    state: LazyListState
+fun HomeScreenTopBar(
+    modifier: Modifier = Modifier,
+    state: HomeTopBarState
 ) {
 
-    val color = animateColorAsState(
-        targetValue = if (state.firstVisibleItemIndex > 1) {
+    val backgroundColor = animateColorAsState(
+        targetValue = if (state.reverseColors) {
             MaterialTheme.colors.background
         } else {
             MaterialTheme.colors.primary
@@ -152,7 +146,7 @@ fun ProgramProgressIndicator(
     )
 
     val contentColor = animateColorAsState(
-        targetValue = if (state.firstVisibleItemIndex > 1) {
+        targetValue = if (state.reverseColors) {
             MaterialTheme.colors.onBackground
         } else {
             MaterialTheme.colors.onPrimary
@@ -160,17 +154,13 @@ fun ProgramProgressIndicator(
     )
 
     val elevation = animateDpAsState(
-        targetValue = if (state.firstVisibleItemScrollOffset > 0) {
-            4.dp
-        } else {
-            0.dp
-        }
+        targetValue = if (state.applyElevation) 4.dp else 0.dp
     )
 
     TopAppBar(
-        modifier = Modifier,
+        modifier = modifier,
         elevation = elevation.value,
-        backgroundColor = color.value,
+        backgroundColor = backgroundColor.value,
         contentColor = contentColor.value
     ) {
 
@@ -200,45 +190,9 @@ fun ProgramProgressIndicator(
                     )
                 }
             }
-
         }
 
-//            LazyRow(
-//                modifier = Modifier.fillMaxWidth(),
-//                contentPadding = PaddingValues(4.dp)
-//            ){
-//                items(count = 10) {
-//                    Icon(imageVector = Icons.Default.Refresh, contentDescription = null)
-//                }
-//            }
-
-
-//            Row(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                LinearProgressIndicator(
-//                    modifier = Modifier
-//                        .fillMaxWidth(0.7f)
-//                        .padding(vertical = 8.dp)
-//                        .height(4.dp),
-//                    progress = 0.7f,
-//                    color = Color.White
-//                )
-//                Text(
-//                    modifier = Modifier.fillMaxWidth(0.3f),
-//                    text = "10/10"
-//                )
-//            }
-
-
-//            Text(
-//                modifier = Modifier,
-//                text = "10/43",
-//                color = Color.White,
-//                style = MaterialTheme.typography.body1
-//            )
     }
-
 }
 
 @Composable
