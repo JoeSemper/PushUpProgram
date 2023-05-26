@@ -1,22 +1,26 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
-import android.os.Parcelable
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.joesemper.pushupprogram.ui.screens.common.LoadingView
-import kotlinx.parcelize.Parcelize
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -25,57 +29,69 @@ fun HomeScreen(
     val viewModel: HomeViewModel = getViewModel()
     val state = viewModel.homeState
     val scrollState = rememberLazyListState()
-    var topBarState by rememberSaveable { mutableStateOf(HomeTopBarState()) }
 
     LaunchedEffect(scrollState) {
-        snapshotFlow { scrollState.firstVisibleItemIndex > 1 }
+        snapshotFlow { scrollState.firstVisibleItemIndex > 0 }
             .collect {
-                topBarState = topBarState.copy(reverseColors = it)
+                viewModel.onFirstListItemVisibilityChange(it)
             }
     }
 
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemScrollOffset > 0 }
             .collect {
-                topBarState = topBarState.copy(applyElevation = it)
+                viewModel.onListScroll(it)
             }
     }
 
     Scaffold(
-        topBar = {
-            HomeScreenTopBar(
-                state = topBarState
-            )
-        },
+        topBar = { HomeScreenTopBar(state = viewModel.homeState.topBarState) },
         backgroundColor = MaterialTheme.colors.background
-    ) { padding ->
+    ) {
+
         if (state.isLoading) {
-            LoadingView()
+
+            LoadingView(modifier = Modifier.fillMaxSize())
+
         } else {
-            AnimatedVisibility(visible = !state.isLoading) {
-                LazyColumn(
-                    modifier = Modifier,
-                    state = scrollState,
-                ) {
 
-                    item {
-                        ProgressListItem()
-                    }
+            HomeScreenContent(
+                state = state,
+                scrollState = scrollState,
+                onWorkoutItemClick = { navController.navigate("workout/${it}") }
+            )
 
-                    items(count = state.workouts.size) { columnId ->
-                        WorkoutListItem(
-                            modifier = Modifier
-                                .padding(vertical = 8.dp)
-                                .clickable {
-                                    navController.navigate(
-                                        "workout/${state.workouts[columnId].workoutId}"
-                                    )
-                                },
-                            state = state.workouts[columnId]
-                        )
-                    }
-                }
-            }
         }
+    }
+}
+
+@Composable
+fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    state: HomeScreenState,
+    scrollState: LazyListState,
+    onWorkoutItemClick: (Int) -> Unit
+) {
+    AnimatedVisibility(visible = !state.isLoading) {
+
+        LazyColumn(
+            modifier = modifier,
+            state = scrollState,
+        ) {
+
+            item {
+                ProgressListItem()
+            }
+
+            items(count = state.workouts.size) { columnId ->
+                WorkoutListItem2(
+                    modifier = Modifier
+                        .clickable { onWorkoutItemClick(state.workouts[columnId].workoutId) },
+                    state = state.workouts[columnId]
+                )
+            }
+
+        }
+
     }
 }

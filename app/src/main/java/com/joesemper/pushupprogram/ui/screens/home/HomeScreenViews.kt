@@ -79,6 +79,76 @@ fun WorkoutListItem(
 }
 
 @Composable
+fun WorkoutListItem2(
+    modifier: Modifier = Modifier,
+    state: WorkoutWithMuscleGroups
+) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colors.background,
+    ) {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+        ) {
+            val (muscleIcons, text, stateIcon, divider) = createRefs()
+            val verticalGuideline = createGuidelineFromStart(0.5f)
+
+            Text(
+                modifier = Modifier.constrainAs(text) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(verticalGuideline)
+                    end.linkTo(verticalGuideline)
+                },
+                text = "${state.dayInProgram}",
+                style = MaterialTheme.typography.h6
+            )
+
+            Row(
+                modifier.constrainAs(muscleIcons) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                },
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                state.muscleGroups.forEach {
+                    RoundedIcon(
+                        iconRes = it.muscleGroupResId,
+                    )
+                }
+            }
+
+
+
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(stateIcon) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                    },
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = null
+            )
+
+            Divider(
+                modifier = Modifier.constrainAs(divider) {
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                    start.linkTo(parent.start, 64.dp)
+                }
+            )
+
+        }
+    }
+}
+
+
+@Composable
 fun ProgressListItem(
     modifier: Modifier = Modifier
 ) {
@@ -154,7 +224,7 @@ fun HomeScreenTopBar(
     )
 
     val elevation = animateDpAsState(
-        targetValue = if (state.applyElevation) 4.dp else 0.dp
+        targetValue = if (state.applyElevation) 8.dp else 0.dp
     )
 
     TopAppBar(

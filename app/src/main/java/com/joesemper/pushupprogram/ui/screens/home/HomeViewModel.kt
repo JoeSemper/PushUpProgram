@@ -1,22 +1,14 @@
 package com.joesemper.pushupprogram.ui.screens.home
 
-import android.os.Parcelable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseMuscleGroup
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkout
-import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutWithMuscleGroups
-import com.joesemper.pushupprogram.domain.entity.*
-import com.joesemper.pushupprogram.domain.use_case.GetWorkoutProgramByIdUseCase
-import com.joesemper.pushupprogram.domain.use_case.GetWorkoutSetsForWorkoutUseCase
+import com.joesemper.pushupprogram.domain.entity.WorkoutWithMuscleGroups
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutsForProgramUseCase
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 
 class HomeViewModel(
     private val getWorkoutsForProgramUseCase: GetWorkoutsForProgramUseCase,
@@ -40,12 +32,16 @@ class HomeViewModel(
         }
     }
 
-    fun onListScroll(isScrolled: Boolean) {
-
+    fun onListScroll(hasScrollOffset: Boolean) {
+        homeState = homeState.copy(
+            topBarState = homeState.topBarState.copy(applyElevation = hasScrollOffset)
+        )
     }
 
     fun onFirstListItemVisibilityChange(isFirstItemVisible: Boolean) {
-
+        homeState = homeState.copy(
+            topBarState = homeState.topBarState.copy(reverseColors = isFirstItemVisible)
+        )
     }
 
 }
@@ -56,8 +52,8 @@ data class HomeScreenState(
     val topBarState: HomeTopBarState = HomeTopBarState()
 )
 
-@Parcelize
+
 data class HomeTopBarState(
     val applyElevation: Boolean = false,
     val reverseColors: Boolean = false
-): Parcelable
+)
