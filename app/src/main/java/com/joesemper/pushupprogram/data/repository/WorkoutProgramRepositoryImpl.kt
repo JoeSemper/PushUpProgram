@@ -2,11 +2,11 @@ package com.joesemper.pushupprogram.data.repository
 
 import com.joesemper.pushupprogram.data.datasourse.converters.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.dao.WorkoutProgramDao
+import com.joesemper.pushupprogram.data.datasourse.room.main.entity.DatabaseWorkoutWithWorkoutSets
 import com.joesemper.pushupprogram.data.datasourse.room.prepopulated.dao.PrepopulatedProgramDao
 import com.joesemper.pushupprogram.domain.entity.*
 import com.joesemper.pushupprogram.domain.repository.WorkoutProgramRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import org.koin.java.KoinJavaComponent.inject
 
 
@@ -39,16 +39,16 @@ class WorkoutProgramRepositoryImpl(
             databasePrograms.map { it.toProgram() }
         }
 
+    override fun getWorkoutWithSetsById(workoutId: Int) =
+        workoutProgramDao.getWorkoutWithSetsById(workoutId).map { databaseWorkoutWithSets ->
+            databaseWorkoutWithSets.toWorkout()
+        }
+
     override fun getWorkoutSetsForWorkout(workoutId: Int) =
         workoutProgramDao.getWorkoutSetsWithExercises(workoutId)
             .map { databaseWorkoutSetWithExercise ->
                 databaseWorkoutSetWithExercise.map { it.toWorkoutSet() }
             }
-
-//    override fun getWorkoutsForProgram(programId: Int) =
-//        workoutProgramDao.getWorkoutsWithSetsForProgram(programId).map { databaseWorkout ->
-//            databaseWorkout.map { it.toWorkout() }
-//        }
 
     override fun getWorkoutsForProgram(programId: Int) =
         workoutProgramDao.getWorkoutsForProgramWithMuscleGroups(programId).map { map ->

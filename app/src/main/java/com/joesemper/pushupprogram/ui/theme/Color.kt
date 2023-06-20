@@ -7,6 +7,7 @@ val PrimaryColor = Color(0xFF2196F3)
 val PrimaryColorDark = Color(0xFF303f9f)
 val PrimaryColorLight = Color(0xFFE3F2FD)
 val SecondaryColor = Color(0xFF797979)
+val SecondaryColorVariant = Color(0xDE000000)
 
 //val PrimaryTextColor = Color(0xFF212121)
 //val SecondaryTextColor = Color(0xFF757575)

@@ -26,6 +26,9 @@ interface WorkoutProgramDao {
     @Query("SELECT * FROM WorkoutSets WHERE workout_id = :workoutId")
     fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<DatabaseWorkoutSet>>
 
+    @Query("SELECT * FROM Workouts WHERE workout_id = :workoutId")
+    fun getWorkoutWithSetsById(workoutId: Int): Flow<DatabaseWorkoutWithWorkoutSets>
+
     @Query("SELECT * FROM Exercises WHERE exercise_id = :exerciseId")
     fun getWorkoutExerciseById(exerciseId: Int): Flow<DatabaseWorkoutExercise>
 

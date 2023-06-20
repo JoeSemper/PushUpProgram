@@ -12,74 +12,15 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.joesemper.pushupprogram.domain.entity.WorkoutWithMuscleGroups
+import com.joesemper.pushupprogram.ui.theme.SecondaryTextColor
 
 @Composable
 fun WorkoutListItem(
-    modifier: Modifier = Modifier,
-    state: WorkoutWithMuscleGroups
-) {
-    Card(
-        modifier = modifier,
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 4.dp
-    ) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-        ) {
-            val (muscleIcons, text, stateIcon) = createRefs()
-            val verticalGuideline = createGuidelineFromStart(0.5f)
-
-            Row(
-                modifier.constrainAs(muscleIcons) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                },
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                state.muscleGroups.forEach {
-                    RoundedIcon(
-                        iconRes = it.muscleGroupResId,
-                    )
-                }
-            }
-
-            Text(
-                modifier = Modifier.constrainAs(text) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(verticalGuideline)
-                    end.linkTo(verticalGuideline)
-                },
-                text = "Day ${state.dayInProgram}",
-                style = MaterialTheme.typography.h6
-            )
-
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .constrainAs(stateIcon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    },
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = null
-            )
-
-        }
-    }
-}
-
-@Composable
-fun WorkoutListItem2(
     modifier: Modifier = Modifier,
     state: WorkoutWithMuscleGroups
 ) {
@@ -87,62 +28,46 @@ fun WorkoutListItem2(
         modifier = modifier,
         color = MaterialTheme.colors.background,
     ) {
-        ConstraintLayout(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
         ) {
-            val (muscleIcons, text, stateIcon, divider) = createRefs()
-            val verticalGuideline = createGuidelineFromStart(0.5f)
-
-            Text(
-                modifier = Modifier.constrainAs(text) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(verticalGuideline)
-                    end.linkTo(verticalGuideline)
-                },
-                text = "${state.dayInProgram}",
-                style = MaterialTheme.typography.h6
-            )
-
             Row(
-                modifier.constrainAs(muscleIcons) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                },
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                state.muscleGroups.forEach {
-                    RoundedIcon(
-                        iconRes = it.muscleGroupResId,
-                    )
+                Text(
+                    text = "${state.dayInProgram}",
+                    style = MaterialTheme.typography.h6,
+                    color = SecondaryTextColor
+                )
+
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    state.muscleGroups.forEach {
+                        RoundedIcon(
+                            iconRes = it.muscleGroupResId,
+                        )
+                    }
                 }
+
+                Icon(
+                    modifier = Modifier.size(32.dp),
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = null,
+                    tint = Color.Green
+                )
+
             }
 
-
-
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .constrainAs(stateIcon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    },
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = null
-            )
-
-            Divider(
-                modifier = Modifier.constrainAs(divider) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start, 64.dp)
-                }
-            )
-
+            Divider(modifier = Modifier.padding(start = 64.dp).fillMaxWidth())
         }
     }
 }
@@ -247,7 +172,8 @@ fun HomeScreenTopBar(
             ) {
                 Text(
                     text = "Push up program",
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = contentColor.value
                 )
                 IconButton(
                     modifier = Modifier.size(32.dp),
@@ -256,7 +182,8 @@ fun HomeScreenTopBar(
                     Icon(
                         modifier = Modifier.size(32.dp),
                         imageVector = Icons.Default.List,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = contentColor.value
                     )
                 }
             }

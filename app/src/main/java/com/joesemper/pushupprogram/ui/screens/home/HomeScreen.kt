@@ -84,7 +84,7 @@ fun HomeScreenContent(
             }
 
             items(count = state.workouts.size) { columnId ->
-                WorkoutListItem2(
+                WorkoutListItem(
                     modifier = Modifier
                         .clickable { onWorkoutItemClick(state.workouts[columnId].workoutId) },
                     state = state.workouts[columnId]

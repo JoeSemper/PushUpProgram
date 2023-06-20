@@ -1,6 +1,7 @@
 package com.joesemper.pushupprogram.domain.repository
 
 import com.joesemper.pushupprogram.domain.entity.Program
+import com.joesemper.pushupprogram.domain.entity.Workout
 import com.joesemper.pushupprogram.domain.entity.WorkoutSet
 import com.joesemper.pushupprogram.domain.entity.WorkoutWithMuscleGroups
 import kotlinx.coroutines.flow.Flow
@@ -13,4 +14,5 @@ interface WorkoutProgramRepository {
     fun getWorkoutsForProgram(programId: Int): Flow<List<WorkoutWithMuscleGroups>>
     fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<WorkoutSet>>
     fun getProgramById(programId: Int): Flow<Program>
+    fun getWorkoutWithSetsById(workoutId: Int): Flow<Workout>
 }

@@ -121,7 +121,7 @@ fun AppNavHost(
 
             composable(
                 route = WORKOUT_ROUTE,
-                arguments = listOf(navArgument("workoutId") { type = NavType.StringType })
+                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) {
                 WorkoutScreen(navController)
             }
