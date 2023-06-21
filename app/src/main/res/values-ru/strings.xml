@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PushUpProgram</string>
     <string name="home">Home</string>
@@ -6,5 +7,5 @@
     <string name="back">Back</string>
     <string name="rest">Rest</string>
     <string name="chest">Chest</string>
-    <string name="workout_day">Workout day</string>
+    <string name="workout_day">День</string>
 </resources>

@@ -17,6 +17,8 @@ val PrimaryTextColor = Color(0xDE000000)
 val SecondaryTextColor = Color(0x8A000000)
 val SupportTextColor = Color(0x42000000)
 
+val GreenColor = Color(0xFF439225)
+
 val PrimaryWhiteColor = Color(0xFFFFFFFF)
 val SecondaryWhiteColor = Color(0xFFE9E9E9)
 

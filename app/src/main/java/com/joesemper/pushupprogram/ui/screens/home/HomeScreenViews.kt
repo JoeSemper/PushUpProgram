@@ -3,10 +3,12 @@ package com.joesemper.pushupprogram.ui.screens.home
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.joesemper.pushupprogram.domain.entity.WorkoutWithMuscleGroups
+import com.joesemper.pushupprogram.ui.theme.GreenColor
 import com.joesemper.pushupprogram.ui.theme.SecondaryTextColor
 
 @Composable
@@ -35,39 +38,59 @@ fun WorkoutListItem(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "${state.dayInProgram}",
-                    style = MaterialTheme.typography.h6,
-                    color = SecondaryTextColor
-                )
-
+                Box(
+                    modifier = Modifier.size(64.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "${state.dayInProgram}",
+                        style = MaterialTheme.typography.h6,
+                        color = SecondaryTextColor
+                    )
+                }
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    state.muscleGroups.forEach {
-                        RoundedIcon(
-                            iconRes = it.muscleGroupResId,
-                        )
+                    Text(
+                        text = "21.06.2032",
+                        style = MaterialTheme.typography.body1
+                    )
+
+                    Row() {
+                        state.muscleGroups.forEach {
+                            RoundedIcon(
+                                modifier = Modifier.padding(horizontal = 4.dp),
+                                iconRes = it.muscleGroupResId,
+                            )
+                        }
                     }
+
                 }
 
                 Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Icons.Default.PlayArrow,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .size(32.dp),
+                    imageVector = Icons.Default.Done,
                     contentDescription = null,
-                    tint = Color.Green
+                    tint = GreenColor
                 )
 
             }
 
-            Divider(modifier = Modifier.padding(start = 64.dp).fillMaxWidth())
+            Divider(modifier = Modifier
+                .padding(start = 64.dp)
+                .fillMaxWidth())
         }
     }
 }
@@ -160,7 +183,9 @@ fun HomeScreenTopBar(
     ) {
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         )
         {
             Row(
@@ -175,6 +200,7 @@ fun HomeScreenTopBar(
                     style = MaterialTheme.typography.h6,
                     color = contentColor.value
                 )
+
                 IconButton(
                     modifier = Modifier.size(32.dp),
                     onClick = { /*TODO*/ }
