@@ -52,7 +52,6 @@ data class HomeScreenState(
     val topBarState: HomeTopBarState = HomeTopBarState()
 )
 
-
 data class HomeTopBarState(
     val applyElevation: Boolean = false,
     val reverseColors: Boolean = false

@@ -11,4 +11,5 @@ val useCaseModule = module {
     factory { GetWorkoutsForProgramUseCase(workoutProgramRepository = get()) }
     factory { GetWorkoutProgramByIdUseCase(workoutProgramRepository = get()) }
     factory { GetWorkoutByIdUseCase(workoutProgramRepository = get()) }
+    factory { UpdateWorkoutCompleteStatusUseCase(workoutProgramRepository = get()) }
 }

@@ -60,4 +60,7 @@ class WorkoutProgramRepositoryImpl(
             databaseProgram.toProgram()
         }
 
+    override fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean) {
+        workoutProgramDao.updateWorkoutCompleteStatus(workoutId = workoutId, isComplete = isComplete)
+    }
 }

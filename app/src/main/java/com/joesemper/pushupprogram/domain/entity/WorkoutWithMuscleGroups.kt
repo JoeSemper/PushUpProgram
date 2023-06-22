@@ -5,5 +5,6 @@ data class WorkoutWithMuscleGroups(
     val programId: Int,
     val date: Long,
     val dayInProgram: Int,
+    val isComplete: Boolean,
     val muscleGroups: Set<MuscleGroup>
 )

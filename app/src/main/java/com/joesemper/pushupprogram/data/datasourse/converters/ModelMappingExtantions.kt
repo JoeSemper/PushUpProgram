@@ -104,6 +104,7 @@ fun DatabaseWorkoutWithWorkoutSets.toWorkout() = Workout(
     programId = databaseWorkout.programId,
     date = databaseWorkout.date,
     dayInProgram = databaseWorkout.dayInProgram,
+    isComplete = databaseWorkout.isComplete,
     workoutSets = databaseWorkoutSets.map { it.toWorkoutSet() }
 )
 
@@ -115,6 +116,7 @@ fun workoutsWithMuscleGroupsMapToEntity(map: Map<DatabaseWorkout, Set<DatabaseMu
             programId = pair.first.programId,
             date = pair.first.date,
             dayInProgram = pair.first.dayInProgram,
+            isComplete = pair.first.isComplete,
             muscleGroups = pair.second.map { it.toMuscleGroup() }.toSet()
         )
     }

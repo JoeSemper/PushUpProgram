@@ -7,6 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +18,8 @@ import com.joesemper.pushupprogram.ui.theme.GreenColor
 @Composable
 fun WorkoutScreenTopBar(
     modifier: Modifier = Modifier,
-    text: String = ""
+    text: String = "",
+    isWorkoutComplete: Boolean
 ) {
     TopAppBar(
         modifier = modifier,
@@ -35,7 +38,7 @@ fun WorkoutScreenTopBar(
 
             Icon(
                 modifier = Modifier.size(32.dp),
-                imageVector = Icons.Default.Done,
+                imageVector = if (isWorkoutComplete) Icons.Default.Done else Icons.Default.Lock,
                 tint = GreenColor,
                 contentDescription = null
             )

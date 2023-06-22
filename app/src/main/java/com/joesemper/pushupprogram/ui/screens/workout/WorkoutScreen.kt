@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +34,8 @@ fun WorkoutScreen(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 WorkoutScreenTopBar(
-                    text = stringResource(R.string.workout_day) + " ${state.workout.dayInProgram}"
+                    text = stringResource(R.string.workout_day) + " ${state.workout.dayInProgram}",
+                    isWorkoutComplete = state.workout.isComplete
                 )
             }
         ) { paddingValues ->
@@ -42,7 +44,8 @@ fun WorkoutScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(bottom = paddingValues.calculateBottomPadding()),
-                state = state
+                state = state,
+                onCompleteWorkout = { viewModel.onCompleteWorkout() }
             )
 
         }
@@ -54,7 +57,8 @@ fun WorkoutScreen(navController: NavController) {
 @Composable
 fun WorkoutScreenContent(
     modifier: Modifier = Modifier,
-    state: WorkoutScreenState
+    state: WorkoutScreenState,
+    onCompleteWorkout: () -> Unit
 ) {
     val pagerState = rememberPagerState()
 
@@ -69,11 +73,16 @@ fun WorkoutScreenContent(
             state = pagerState
         ) { page ->
 
-            Box(
+            Column(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = state.workout.workoutSets[page].exercise.exerciseName)
+
+                Button(onClick = onCompleteWorkout) {
+                    Text(text = "Complete")
+                }
             }
 
         }

@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -81,7 +82,7 @@ fun WorkoutListItem(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .size(32.dp),
-                    imageVector = Icons.Default.Done,
+                    imageVector = if (state.isComplete) Icons.Default.Done else Icons.Default.Lock,
                     contentDescription = null,
                     tint = GreenColor
                 )

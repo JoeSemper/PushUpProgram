@@ -1,9 +1,6 @@
 package com.joesemper.pushupprogram.data.datasourse.room.main.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.joesemper.pushupprogram.data.datasourse.room.main.entity.*
 import com.joesemper.pushupprogram.domain.entity.MuscleGroup
 import kotlinx.coroutines.flow.Flow
@@ -72,5 +69,10 @@ interface WorkoutProgramDao {
     @Query("SELECT (SELECT COUNT(*) FROM Programs) == 0")
     suspend fun isEmpty(): Boolean
 
+    @Update(entity = DatabaseWorkout::class)
+    fun updateWorkout(workout: DatabaseWorkout)
+
+    @Query("UPDATE Workouts SET is_complete = :isComplete WHERE workout_id =:workoutId")
+    fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean)
 
 }
