@@ -14,8 +14,9 @@ interface WorkoutProgramRepository {
     fun getWorkoutsForProgram(programId: Int): Flow<List<WorkoutWithMuscleGroups>>
     fun getWorkoutSetsForWorkout(workoutId: Int): Flow<List<WorkoutSet>>
     fun getProgramById(programId: Int): Flow<Program>
+    suspend fun getWorkoutSetById(workoutSetId: Int): WorkoutSet
     fun getWorkoutWithSetsById(workoutId: Int): Flow<Workout>
-    fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean)
-    fun updateWorkoutSetRepsDone(workoutSetId: Int, repsDone: Int)
+    suspend fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean)
+    suspend fun updateWorkoutSetRepsDone(workoutSetId: Int, repsDone: Int)
 
 }

@@ -60,11 +60,17 @@ class WorkoutProgramRepositoryImpl(
             databaseProgram.toProgram()
         }
 
-    override fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean) {
-        workoutProgramDao.updateWorkoutCompleteStatus(workoutId = workoutId, isComplete = isComplete)
+    override suspend fun getWorkoutSetById(workoutSetId: Int) =
+        workoutProgramDao.getWorkoutSetWithExercisesById(workoutSetId).toWorkoutSet()
+
+    override suspend fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean) {
+        workoutProgramDao.updateWorkoutCompleteStatus(
+            workoutId = workoutId,
+            isComplete = isComplete
+        )
     }
 
-    override fun updateWorkoutSetRepsDone(workoutSetId: Int, repsDone: Int) {
+    override suspend fun updateWorkoutSetRepsDone(workoutSetId: Int, repsDone: Int) {
         workoutProgramDao.updateWorkoutSetRepsDone(workoutSetId = workoutSetId, repsDone = repsDone)
     }
 }

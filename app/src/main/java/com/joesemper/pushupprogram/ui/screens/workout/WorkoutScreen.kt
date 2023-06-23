@@ -25,7 +25,7 @@ import org.koin.androidx.compose.getViewModel
 fun WorkoutScreen(navController: NavController) {
 
     val viewModel: WorkoutViewModel = getViewModel()
-    val state = viewModel.workoutState
+    val state = viewModel.workoutUiState
 
     AnimatedVisibility(
         visible = !state.isLoading,
@@ -46,7 +46,6 @@ fun WorkoutScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(bottom = paddingValues.calculateBottomPadding()),
                 state = state,
-                onCompleteWorkout = { viewModel.onCompleteWorkout() },
                 updateRepsDone = { setId, delta -> viewModel.updateRepsDone(setId, delta) }
             )
 
@@ -60,7 +59,6 @@ fun WorkoutScreen(navController: NavController) {
 fun WorkoutScreenContent(
     modifier: Modifier = Modifier,
     state: WorkoutScreenState,
-    onCompleteWorkout: () -> Unit,
     updateRepsDone: (setId: Int, delta: Int) -> Unit
 ) {
     val pagerState = rememberPagerState()
@@ -83,17 +81,13 @@ fun WorkoutScreenContent(
             ) {
                 Text(text = state.workout.workoutSets[page].exercise.exerciseName)
 
-                Button(onClick = onCompleteWorkout) {
-                    Text(text = "Complete")
-                }
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     IconButton(onClick = {
-                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, -1)
+                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, -5)
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
@@ -108,7 +102,7 @@ fun WorkoutScreenContent(
                     )
 
                     IconButton(onClick = {
-                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, 1)
+                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, 5)
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowForward,

@@ -1,6 +1,7 @@
 package com.joesemper.pushupprogram.di
 
 import com.joesemper.pushupprogram.domain.use_case.*
+import org.koin.androidx.compose.get
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -12,5 +13,10 @@ val useCaseModule = module {
     factory { GetWorkoutProgramByIdUseCase(workoutProgramRepository = get()) }
     factory { GetWorkoutByIdUseCase(workoutProgramRepository = get()) }
     factory { UpdateWorkoutCompleteStatusUseCase(workoutProgramRepository = get()) }
-    factory { UpdateWorkoutSetRepsDoneUseCase(workoutProgramRepository = get()) }
+    factory {
+        UpdateWorkoutSetRepsDoneUseCase(
+            workoutProgramRepository = get(),
+            updateWorkoutCompleteStatus = get()
+        )
+    }
 }
