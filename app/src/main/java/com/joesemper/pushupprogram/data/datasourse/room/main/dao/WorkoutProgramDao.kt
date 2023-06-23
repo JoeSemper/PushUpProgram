@@ -75,4 +75,7 @@ interface WorkoutProgramDao {
     @Query("UPDATE Workouts SET is_complete = :isComplete WHERE workout_id =:workoutId")
     fun updateWorkoutCompleteStatus(workoutId: Int, isComplete: Boolean)
 
+    @Query("UPDATE WorkoutSets SET exercise_reps_done = :repsDone WHERE workout_set_id =:workoutSetId")
+    fun updateWorkoutSetRepsDone(workoutSetId: Int, repsDone: Int)
+
 }

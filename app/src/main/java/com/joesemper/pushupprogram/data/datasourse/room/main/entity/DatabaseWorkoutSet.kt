@@ -31,5 +31,6 @@ data class DatabaseWorkoutSet(
     @ColumnInfo(name = "workout_set_id") val workoutSetId: Int = 0,
     @ColumnInfo(name = "workout_id") val workoutId: Int = 0,
     @ColumnInfo(name = "exercise_id") val exerciseId: Int = 0,
-    @ColumnInfo(name = "exercise_reps") val exerciseReps: Int = 0
+    @ColumnInfo(name = "exercise_reps") val exerciseReps: Int = 0,
+    @ColumnInfo(name = "exercise_reps_done") val exerciseRepsDone: Int = 0
 ) : Parcelable

@@ -90,7 +90,8 @@ fun DatabaseWorkoutSetWithExercise.toWorkoutSet() = WorkoutSet(
     workoutSetId = databaseWorkoutSet.workoutSetId,
     workoutId = databaseWorkoutSet.workoutId,
     exercise = databaseWorkoutExercise.toWorkoutExercise(),
-    exerciseReps = databaseWorkoutSet.exerciseReps
+    exerciseReps = databaseWorkoutSet.exerciseReps,
+    exerciseRepsDone = databaseWorkoutSet.exerciseRepsDone
 )
 
 fun DatabaseMuscleGroup.toMuscleGroup() = MuscleGroup(

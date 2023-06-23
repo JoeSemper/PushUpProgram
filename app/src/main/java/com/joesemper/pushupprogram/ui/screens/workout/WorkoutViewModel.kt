@@ -11,6 +11,7 @@ import com.joesemper.pushupprogram.domain.entity.WorkoutSet
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutByIdUseCase
 import com.joesemper.pushupprogram.domain.use_case.GetWorkoutSetsForWorkoutUseCase
 import com.joesemper.pushupprogram.domain.use_case.UpdateWorkoutCompleteStatusUseCase
+import com.joesemper.pushupprogram.domain.use_case.UpdateWorkoutSetRepsDoneUseCase
 import com.joesemper.pushupprogram.ui.screens.home.HomeScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class WorkoutViewModel(
     savedStateHandle: SavedStateHandle,
     private val getWorkoutById: GetWorkoutByIdUseCase,
-    private val updateWorkoutCompleteStatus: UpdateWorkoutCompleteStatusUseCase
+    private val updateWorkoutCompleteStatus: UpdateWorkoutCompleteStatusUseCase,
+    private val updateWorkoutSetRepsDone: UpdateWorkoutSetRepsDoneUseCase
 ) : ViewModel() {
     val workoutId = MutableStateFlow<Int>(checkNotNull(savedStateHandle["workoutId"]))
 
@@ -48,6 +50,21 @@ class WorkoutViewModel(
                 workoutId = workoutState.workout.workoutId,
                 isComplete = true
             )
+        }
+    }
+
+    fun updateRepsDone(setId: Int, repsDoneDelta: Int) {
+        val workoutSet = workoutState.workout.workoutSets.find { it.workoutSetId == setId }
+
+        viewModelScope.launch {
+            workoutSet?.let {
+                val repsDone = it.exerciseRepsDone + repsDoneDelta
+                updateWorkoutSetRepsDone(
+                    workoutSetId = setId,
+                    repsDone = if (repsDone <= 0) 0 else repsDone
+                )
+            }
+
         }
     }
 

@@ -7,9 +7,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +46,8 @@ fun WorkoutScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(bottom = paddingValues.calculateBottomPadding()),
                 state = state,
-                onCompleteWorkout = { viewModel.onCompleteWorkout() }
+                onCompleteWorkout = { viewModel.onCompleteWorkout() },
+                updateRepsDone = { setId, delta -> viewModel.updateRepsDone(setId, delta) }
             )
 
         }
@@ -58,7 +60,8 @@ fun WorkoutScreen(navController: NavController) {
 fun WorkoutScreenContent(
     modifier: Modifier = Modifier,
     state: WorkoutScreenState,
-    onCompleteWorkout: () -> Unit
+    onCompleteWorkout: () -> Unit,
+    updateRepsDone: (setId: Int, delta: Int) -> Unit
 ) {
     val pagerState = rememberPagerState()
 
@@ -83,8 +86,37 @@ fun WorkoutScreenContent(
                 Button(onClick = onCompleteWorkout) {
                     Text(text = "Complete")
                 }
-            }
 
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(onClick = {
+                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, -1)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+
+                    Text(
+                        text = "${state.workout.workoutSets[page].exerciseRepsDone}" +
+                                " / " +
+                                "${state.workout.workoutSets[page].exerciseReps}"
+                    )
+
+                    IconButton(onClick = {
+                        updateRepsDone(state.workout.workoutSets[page].workoutSetId, 1)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowForward,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
         }
 
         Row(
@@ -101,3 +133,4 @@ fun WorkoutScreenContent(
         }
     }
 }
+
