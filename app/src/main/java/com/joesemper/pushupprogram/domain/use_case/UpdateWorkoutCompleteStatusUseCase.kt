@@ -11,26 +11,11 @@ class UpdateWorkoutCompleteStatusUseCase(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
     private val workoutProgramRepository: WorkoutProgramRepository
 ) {
-    suspend operator fun invoke(workoutId: Int) =
+    suspend operator fun invoke(workoutId: Int, isComplete: Boolean) =
         withContext(defaultDispatcher) {
-            workoutProgramRepository.getWorkoutSetsForWorkout(workoutId)
-                .take(1)
-                .collect { workoutSets ->
-                    if (checkIfWorkoutComplete(workoutSets)) {
-                        onCompleteWorkout(workoutId)
-                    }
-                }
+            workoutProgramRepository.updateWorkoutCompleteStatus(
+                workoutId = workoutId,
+                isComplete = isComplete
+            )
         }
-
-    private fun checkIfWorkoutComplete(workoutSets: List<WorkoutSet>): Boolean {
-        workoutSets.find { it.exerciseRepsDone < it.exerciseReps }
-            ?.let { return false } ?: return true
-    }
-
-    private suspend fun onCompleteWorkout(workoutId: Int) {
-        workoutProgramRepository.updateWorkoutCompleteStatus(
-            workoutId = workoutId,
-            isComplete = true
-        )
-    }
 }
