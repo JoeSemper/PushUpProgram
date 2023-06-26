@@ -96,10 +96,10 @@ fun WorkoutListItem(
     }
 }
 
-
 @Composable
 fun ProgressListItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    progress: ProgramProgress
 ) {
     Box(
         modifier = modifier
@@ -107,6 +107,7 @@ fun ProgressListItem(
             .height(150.dp),
         contentAlignment = Alignment.Center
     ) {
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -125,6 +126,7 @@ fun ProgressListItem(
             ) {
             }
         }
+
         Card(
             modifier = Modifier
                 .padding(16.dp)
@@ -140,12 +142,13 @@ fun ProgressListItem(
                 Text(text = "Push up beginner")
                 LinearProgressIndicator(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(16.dp)
                         .fillMaxWidth(),
-                    progress = 0.7f
+                    progress = (progress.workoutsDone.toFloat() / progress.totalWorkouts.toFloat())
                 )
             }
         }
+
     }
 
 }
@@ -197,7 +200,7 @@ fun HomeScreenTopBar(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Push up program",
+                    text = state.title,
                     style = MaterialTheme.typography.h6,
                     color = contentColor.value
                 )

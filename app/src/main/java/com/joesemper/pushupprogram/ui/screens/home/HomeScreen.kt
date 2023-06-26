@@ -80,7 +80,7 @@ fun HomeScreenContent(
         ) {
 
             item {
-                ProgressListItem()
+                ProgressListItem(progress = state.programProgress)
             }
 
             items(count = state.workouts.size) { columnId ->

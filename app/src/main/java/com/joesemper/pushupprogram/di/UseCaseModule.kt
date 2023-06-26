@@ -19,4 +19,5 @@ val useCaseModule = module {
             updateWorkoutCompleteStatus = get()
         )
     }
+    factory { GetCurrentProgramIdUseCase(settingsDataStore = get()) }
 }

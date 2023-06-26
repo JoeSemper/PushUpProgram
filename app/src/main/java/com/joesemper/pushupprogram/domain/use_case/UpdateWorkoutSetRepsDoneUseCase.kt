@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.take
 
 class UpdateWorkoutSetRepsDoneUseCase(
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val workoutProgramRepository: WorkoutProgramRepository,
     private val updateWorkoutCompleteStatus: UpdateWorkoutCompleteStatusUseCase,
 ) {
