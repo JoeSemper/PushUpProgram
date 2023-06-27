@@ -25,6 +25,7 @@ import androidx.navigation.navArgument
 import com.joesemper.pushupprogram.R
 import com.joesemper.pushupprogram.ui.screens.home.HomeScreen
 import com.joesemper.pushupprogram.ui.screens.progress.ProgressScreen
+import com.joesemper.pushupprogram.ui.screens.select.ProgramSelectScreen
 import com.joesemper.pushupprogram.ui.screens.settings.SettingsScreen
 import com.joesemper.pushupprogram.ui.screens.workout.WorkoutScreen
 import com.joesemper.pushupprogram.ui.theme.SecondaryTextColor
@@ -33,6 +34,7 @@ const val HOME_ROUTE = "home"
 const val PROGRESS_ROUTE = "progress"
 const val SETTINGS_ROUTE = "settings"
 const val WORKOUT_ROUTE = "workout/{workoutId}"
+const val PROGRAM_SELECT_ROUTE = "select"
 
 sealed class Screen(val route: String, @StringRes val labelRes: Int, val icon: ImageVector) {
     object Home : Screen(
@@ -58,7 +60,8 @@ sealed class Screen(val route: String, @StringRes val labelRes: Int, val icon: I
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = HOME_ROUTE
+    startDestination: String = HOME_ROUTE,
+    isProgramSelectRequired: Boolean
 ) {
     val bottomNavItems = listOf(
         Screen.Home,
@@ -99,7 +102,7 @@ fun AppNavHost(
         NavHost(
             modifier = modifier.padding(innerPadding),
             navController = navController,
-            startDestination = startDestination
+            startDestination = if (isProgramSelectRequired) PROGRAM_SELECT_ROUTE else startDestination
         ) {
             composable(
                 route = Screen.Home.route
@@ -124,6 +127,12 @@ fun AppNavHost(
                 arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) {
                 WorkoutScreen(navController)
+            }
+
+            composable(
+                route = PROGRAM_SELECT_ROUTE
+            ) {
+                ProgramSelectScreen(navController)
             }
 
         }

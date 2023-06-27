@@ -1,0 +1,49 @@
+package com.joesemper.pushupprogram.ui.screens.select
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.joesemper.pushupprogram.ui.HOME_ROUTE
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun ProgramSelectScreen(
+    navController: NavController
+) {
+    val viewModel: ProgramSelectViewModel = getViewModel()
+    val state = viewModel.uiState
+
+    LaunchedEffect(key1 = state.isSelected) {
+        if (viewModel.uiState.isSelected) {
+            navController.navigate(HOME_ROUTE)
+        }
+    }
+
+    AnimatedVisibility(visible = !state.isLoading) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            state.programs.forEach {
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .clickable { viewModel.onSelectProgram(it.programId) },
+                    text = it.programName
+                )
+            }
+        }
+    }
+
+}

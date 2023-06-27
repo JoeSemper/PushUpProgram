@@ -10,14 +10,27 @@ import com.joesemper.pushupprogram.domain.repository.SettingsDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingsDataStoreImpl(private val context: Context): SettingsDataStore {
+class SettingsDataStoreImpl(private val context: Context) : SettingsDataStore {
 
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+        private val IS_PROGRAM_SELECTED = stringPreferencesKey("is_program_selected")
+
         private val CURRENT_PROGRAM = stringPreferencesKey("current_program")
         private const val DEFAULT_PROGRAM_ID = 1
     }
+
+    override suspend fun setWorkoutProgramSelectedStatus(isSelected: Boolean) {
+        context.dataStore.edit { settings ->
+            settings[IS_PROGRAM_SELECTED] = isSelected.toString()
+        }
+    }
+
+    override fun isWorkoutProgramSelected(): Flow<Boolean> =
+        context.dataStore.data.map { preferences ->
+            preferences[IS_PROGRAM_SELECTED].toBoolean()
+        }
 
     override suspend fun setCurrentWorkoutProgram(programId: Int) {
         context.dataStore.edit { settings ->
@@ -25,8 +38,10 @@ class SettingsDataStoreImpl(private val context: Context): SettingsDataStore {
         }
     }
 
-    override fun getCurrentWorkoutProgramId(): Flow<Int> = context.dataStore.data.map { preferences ->
-        preferences[CURRENT_PROGRAM]?.toInt() ?: DEFAULT_PROGRAM_ID
-    }
+    override fun getCurrentWorkoutProgramId(): Flow<Int> =
+        context.dataStore.data.map { preferences ->
+            preferences[CURRENT_PROGRAM]?.toInt() ?: DEFAULT_PROGRAM_ID
+        }
+
 
 }
