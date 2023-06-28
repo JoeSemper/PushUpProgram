@@ -1,6 +1,9 @@
 package com.joesemper.pushupprogram.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,6 +12,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -61,8 +66,18 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = HOME_ROUTE,
-    isProgramSelectRequired: Boolean
+    isProgramSelected: Boolean
 ) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val bottomBarVisibilityState = rememberSaveable { (mutableStateOf(true)) }
+
+    when (navBackStackEntry?.destination?.route) {
+        WORKOUT_ROUTE -> bottomBarVisibilityState.value = false
+        PROGRAM_SELECT_ROUTE -> bottomBarVisibilityState.value = false
+        else -> bottomBarVisibilityState.value = true
+    }
+
     val bottomNavItems = listOf(
         Screen.Home,
         Screen.Progress,
@@ -71,30 +86,35 @@ fun AppNavHost(
 
     Scaffold(
         bottomBar = {
-            BottomNavigation(
-                backgroundColor = MaterialTheme.colors.primaryVariant,
-                contentColor = MaterialTheme.colors.primary,
-                elevation = 4.dp
+            AnimatedVisibility(
+                visible = bottomBarVisibilityState.value,
+                enter = slideInVertically(initialOffsetY = { it }),
+                exit = slideOutVertically(targetOffsetY = { it })
             ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+                BottomNavigation(
+                    backgroundColor = MaterialTheme.colors.primaryVariant,
+                    contentColor = MaterialTheme.colors.primary,
+                    elevation = 4.dp
+                ) {
+                    val currentDestination = navBackStackEntry?.destination
 
-                bottomNavItems.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = { Icon(imageVector = screen.icon, contentDescription = null) },
-                        label = { Text(text = stringResource(id = screen.labelRes)) },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        selectedContentColor = MaterialTheme.colors.primary,
-                        unselectedContentColor = MaterialTheme.colors.secondary,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                    bottomNavItems.forEach { screen ->
+                        BottomNavigationItem(
+                            icon = { Icon(imageVector = screen.icon, contentDescription = null) },
+                            label = { Text(text = stringResource(id = screen.labelRes)) },
+                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                            selectedContentColor = MaterialTheme.colors.primary,
+                            unselectedContentColor = MaterialTheme.colors.secondary,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        })
+                            })
+                    }
                 }
             }
         }
@@ -102,7 +122,7 @@ fun AppNavHost(
         NavHost(
             modifier = modifier.padding(innerPadding),
             navController = navController,
-            startDestination = if (isProgramSelectRequired) PROGRAM_SELECT_ROUTE else startDestination
+            startDestination = if (isProgramSelected) startDestination else PROGRAM_SELECT_ROUTE
         ) {
             composable(
                 route = Screen.Home.route

@@ -17,6 +17,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.joesemper.pushupprogram.ui.PROGRAM_SELECT_ROUTE
 import com.joesemper.pushupprogram.ui.screens.common.LoadingView
 import org.koin.androidx.compose.getViewModel
 
@@ -45,7 +46,12 @@ fun HomeScreen(
     }
 
     Scaffold(
-        topBar = { HomeScreenTopBar(state = viewModel.homeState.topBarState) },
+        topBar = {
+            HomeScreenTopBar(
+                state = viewModel.homeState.topBarState,
+                onIconClick = { navController.navigate(PROGRAM_SELECT_ROUTE) }
+            )
+        },
         backgroundColor = MaterialTheme.colors.background
     ) {
 

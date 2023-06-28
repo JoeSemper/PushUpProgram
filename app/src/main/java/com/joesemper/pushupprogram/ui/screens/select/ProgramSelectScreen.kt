@@ -1,11 +1,15 @@
 package com.joesemper.pushupprogram.ui.screens.select
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.joesemper.pushupprogram.ui.HOME_ROUTE
+import com.joesemper.pushupprogram.ui.screens.common.LoadingView
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -29,9 +34,14 @@ fun ProgramSelectScreen(
         }
     }
 
-    AnimatedVisibility(visible = !state.isLoading) {
+    AnimatedVisibility(
+        visible = !state.isLoading,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -46,4 +56,8 @@ fun ProgramSelectScreen(
         }
     }
 
+
+
+
 }
+

@@ -156,7 +156,8 @@ fun ProgressListItem(
 @Composable
 fun HomeScreenTopBar(
     modifier: Modifier = Modifier,
-    state: HomeTopBarState
+    state: HomeTopBarState,
+    onIconClick: () -> Unit
 ) {
 
     val backgroundColor = animateColorAsState(
@@ -207,7 +208,7 @@ fun HomeScreenTopBar(
 
                 IconButton(
                     modifier = Modifier.size(32.dp),
-                    onClick = { /*TODO*/ }
+                    onClick = onIconClick
                 ) {
                     Icon(
                         modifier = Modifier.size(32.dp),
