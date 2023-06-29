@@ -1,9 +1,7 @@
 package com.joesemper.pushupprogram.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -33,7 +31,6 @@ import com.joesemper.pushupprogram.ui.screens.progress.ProgressScreen
 import com.joesemper.pushupprogram.ui.screens.select.ProgramSelectScreen
 import com.joesemper.pushupprogram.ui.screens.settings.SettingsScreen
 import com.joesemper.pushupprogram.ui.screens.workout.WorkoutScreen
-import com.joesemper.pushupprogram.ui.theme.SecondaryTextColor
 
 const val HOME_ROUTE = "home"
 const val PROGRESS_ROUTE = "progress"
@@ -66,7 +63,6 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = HOME_ROUTE,
-    isProgramSelected: Boolean
 ) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -88,8 +84,8 @@ fun AppNavHost(
         bottomBar = {
             AnimatedVisibility(
                 visible = bottomBarVisibilityState.value,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it })
+                enter = slideInVertically { it },
+                exit = slideOutVertically { it }
             ) {
                 BottomNavigation(
                     backgroundColor = MaterialTheme.colors.primaryVariant,
@@ -122,7 +118,7 @@ fun AppNavHost(
         NavHost(
             modifier = modifier.padding(innerPadding),
             navController = navController,
-            startDestination = if (isProgramSelected) startDestination else PROGRAM_SELECT_ROUTE
+            startDestination = startDestination
         ) {
             composable(
                 route = Screen.Home.route

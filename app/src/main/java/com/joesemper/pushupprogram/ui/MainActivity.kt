@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             PushUpProgramTheme {
-                AppNavHost(isProgramSelected = viewModel.uiState.isProgramSelected)
+                AppNavHost()
             }
         }
 
